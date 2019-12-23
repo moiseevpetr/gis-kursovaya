@@ -9,6 +9,7 @@ import { MarkerService } from "../../services/marker.service";
   styleUrls: ['./map.component.less']
 })
 export class MapComponent implements AfterViewInit {
+
   private map;
 
   constructor(private markerService: MarkerService) {
@@ -16,12 +17,11 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.initMap();
-    //this.markerService.makeMarkers(this.map);
-    this.markerService.makeCircleMarkers(this.map);
+    this.markerService.makeMarkers(this.map);
   }
 
   private initMap(): void {
-    this.map = Leaflet.map('map', { // value passed into the map function 'map' is referring to the id of the div where our map will be injected
+    this.map = Leaflet.map('map', {
       center: [ 39.8282, -98.5795 ],
       zoom: 3
     });

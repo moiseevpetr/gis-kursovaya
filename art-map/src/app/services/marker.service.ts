@@ -32,11 +32,16 @@ export class MarkerService {
         if (c.geometry.type == 'Point') {
           const lat = c.geometry.coordinates[0];
           const lon = c.geometry.coordinates[1];
-          const circle = L.circleMarker([lon, lat], this.circleConfig).addTo(map);
+          const circle = L.circleMarker([lon, lat], this.circleConfig);
+          circle.bindPopup(this.makePopup(c));
+          circle.addTo(map);
         }
       }
     });
   };
 
-
+  makePopup(data: any): string {
+    return `` +
+      `<div>Description: ${ data.properties.description }</div>`;
+  }
 }
