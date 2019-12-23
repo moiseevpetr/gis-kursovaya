@@ -1,0 +1,11 @@
+<div class="close">
+  <button mat-button (click)="onCloseClick()">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>
+<div class="margin30">
+  <h2 class="mat-h2">{{artObject.name}}</h2>
+  <div><span>Тип: </span>{{getStrType(artObject.type)}}</div>
+  <div><span>Дата добавления: </span>{{artObject.creationDate | date:'dd.MM.yyyy H:mm:ss'}}</div>
+  <div><span>Описание: </span>{{artObject.description}}</div>
+</div>

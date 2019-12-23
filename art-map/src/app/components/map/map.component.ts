@@ -4,6 +4,10 @@ import * as L from 'leaflet';
 import { ArtObjectService } from "../../services/art-object.service";
 import { ArtObject } from "../../models/art-object";
 
+let map: L.map;
+let selectedObject: ArtObject;
+let artObjects: ArtObject[];
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -11,9 +15,7 @@ import { ArtObject } from "../../models/art-object";
 })
 export class MapComponent implements OnInit {
 
-  private map;
-  private artObjects: ArtObject[];
-  private circleConfig = { radius: 20 };
+  layerControl: L.control.layers;
 
   constructor(private artObjectService: ArtObjectService) {
   }
@@ -22,55 +24,68 @@ export class MapComponent implements OnInit {
     this.loadArtObjects();
   }
 
+  getSelectedObject(): ArtObject {
+    return selectedObject;
+  }
+
+  setSelectedObject(object: ArtObject) {
+    selectedObject = object;
+  }
+
   loadArtObjects() {
     this.artObjectService.getArtObjects()
       .subscribe(
         objects => {
-          this.artObjects = objects;
+          artObjects = objects;
           this.initMap();
-          this.makeMarkers();
         }
       );
-  };
-
-  initMap(): void {
-    this.map = L.map('map', {
-      center: this.calcCenter(this.artObjects),
-      zoom: 10
-    });
-
-    const tiles = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    tiles.addTo(this.map);
   }
 
-  makeMarkers(): void {
-    if (this.artObjects && this.artObjects.length > 0) {
-      for (const object of this.artObjects)
-      {
-        const marker : L.marker = L.marker([object.longitude, object.latitude]);
-        marker.bindPopup(this.makePopup(object));
-        marker.addTo(this.map);
-      }
-    }
-  };
+  initMap(): void {
+    map = L.map('map', {
+      center: this.calcCenter(artObjects),
+      zoom: 12
+    }).on('click', this.onMapClick);
 
-  makeCircleMarkers(): void {
-    if (this.artObjects && this.artObjects.length > 0) {
-      for (const object of this.artObjects)
-      {
-        const circle = L.circleMarker([object.longitude, object.latitude], this.circleConfig);
-        circle.bindPopup(this.makePopup(object));
-        circle.addTo(this.map);
+    this.addTiles();
+    this.addMarkers();
+  }
+
+  addTiles(): void {
+    const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const baseMaps = {
+      "OpenStreetMap": osm
+    };
+
+    this.layerControl = L.control.layers(baseMaps).addTo(map);
+  }
+
+  addMarkers(): void {
+    if (artObjects && artObjects.length > 0) {
+      let markersArr: L.marker[] = [];
+      for (const object of artObjects) {
+        const marker : L.marker = L.marker([object.longitude, object.latitude], {
+          objectId: object.id
+        }).on('click', this.onMarkerClick);
+        marker.bindPopup(this.makePopup(object));
+        markersArr.push(marker);
       }
+
+      const markers = L.layerGroup(markersArr).addTo(map);
+
+      this.layerControl.addOverlay(markers, 'Арт-объекты').addTo(map);;
     }
-  };
+  }
 
   makePopup(data: ArtObject): string {
-    return `<div>Description: ${ data.description }</div>`;
+    return `` +
+      `<div class="mat-h4">${ data.name }</div>` +
+      `<div>Подробности: ${ data.description }</div>`;
   }
 
   calcCenter(objects: ArtObject[]): number[] {
@@ -90,4 +105,18 @@ export class MapComponent implements OnInit {
 
     return [ 56.49771, 84.97437 ]; // Tomsk
   }
+
+  onMapClick(e) {
+    L.popup()
+      .setLatLng(e.latlng)
+      .setContent("You clicked the map at " + e.latlng.toString())
+      .openOn(map);
+  }
+
+  onMarkerClick(e) {
+    const selectedId = e.target.options.objectId;
+    selectedObject = artObjects.find(o => o.id == selectedId);
+  }
+
+
 }

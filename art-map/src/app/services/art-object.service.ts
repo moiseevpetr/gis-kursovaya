@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+
 import { ArtObject } from "../models/art-object";
 
 @Injectable({
@@ -14,31 +16,26 @@ export class ArtObjectService {
   };
 
   getArtObjects(): Observable<ArtObject[]> {
-    let objectsObserver = new Subject<ArtObject[]>();
-
-    this.http.get(this.example).subscribe((res: any) => {
-      let objects: ArtObject[] = [];
-      for (const c of res.features) {
-        if (c.geometry.type == 'Point') {
-          const lat = c.geometry.coordinates[0];
-          const lon = c.geometry.coordinates[1];
-          const description = c.properties.description;
-
-          let object: ArtObject = {
-            id: '',
-            name: '',
-            creationDate: new Date(),
-            latitude: lat,
-            longitude: lon,
-            type: 0,
-            description: description
-          };
-          objects.push(object)
+    return this.http.get(this.example)
+      .pipe(
+        map((res: any) => {
+        let objects: ArtObject[] = [];
+        for (const c of res.features) {
+          if (c.geometry.type == 'Point') {
+            let object: ArtObject = {
+              id: Math.floor(Math.random() * 1000000).toString(),
+              name: c.properties.iconCaption,
+              creationDate: new Date(),
+              latitude: c.geometry.coordinates[0],
+              longitude: c.geometry.coordinates[1],
+              type: 0,
+              description: c.properties.description
+            };
+            objects.push(object)
+          }
         }
-      }
-      objectsObserver.next(objects);
-    });
-
-    return objectsObserver;
+        return objects;
+        })
+      )
   };
 }

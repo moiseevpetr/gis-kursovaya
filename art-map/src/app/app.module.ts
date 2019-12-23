@@ -4,18 +4,22 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatIconModule } from "@angular/material/icon";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
 import { ArtObjectService } from "./services/art-object.service";
 import { NavbarComponent } from "./components/navbar/navbar.component";
+import { ArtObjectDetailsComponent } from './components/art-object-details/art-object-details.component';
 
 @NgModule({
   declarations: [
       AppComponent,
       MapComponent,
-      NavbarComponent
+      NavbarComponent,
+      ArtObjectDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,9 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatGridListModule,
+    MatIconModule
   ],
   providers: [
     ArtObjectService
