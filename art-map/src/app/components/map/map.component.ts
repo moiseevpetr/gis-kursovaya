@@ -1,8 +1,11 @@
 import { OnInit, Component } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
+import * as R from 'rxjs/operators'
 
 import { ArtObjectService } from "../../services/art-object.service";
 import { ArtObject } from "../../models/art-object";
+import { PhotoService } from "../../services/photo.service";
 
 let map: L.map;
 let selectedObject: ArtObject;
@@ -16,11 +19,17 @@ let artObjects: ArtObject[];
 export class MapComponent implements OnInit {
 
   layerControl: L.control.layers;
+  iconBlue: L.icon;
+  iconRed: L.icon;
 
-  constructor(private artObjectService: ArtObjectService) {
+  constructor(
+    private artObjectService: ArtObjectService,
+    private photoService: PhotoService
+  ) {
   }
 
   ngOnInit() {
+    this.setIcon();
     this.loadArtObjects();
   }
 
@@ -67,25 +76,40 @@ export class MapComponent implements OnInit {
 
   addMarkers(): void {
     if (artObjects && artObjects.length > 0) {
-      let markersArr: L.marker[] = [];
+      //let markersArr: L.marker[] = [];
+      const cluster = L.markerClusterGroup();
       for (const object of artObjects) {
+
         const marker : L.marker = L.marker([object.longitude, object.latitude], {
-          objectId: object.id
+          objectId: object.id,
+          icon: this.iconRed
         }).on('click', this.onMarkerClick);
-        marker.bindPopup(this.makePopup(object));
-        markersArr.push(marker);
+
+        this.makePopup(object).subscribe(
+          popup => {
+            marker.bindPopup(popup);
+            //markersArr.push(marker);
+            cluster.addLayer(marker);
+          }
+        );
       }
 
-      const markers = L.layerGroup(markersArr).addTo(map);
+      //const markers = L.layerGroup(markersArr).addTo(map);
+      cluster.addTo(map);
 
-      this.layerControl.addOverlay(markers, 'Арт-объекты').addTo(map);;
+      //this.layerControl.addOverlay(markers, 'Арт-объекты').addTo(map);
+      this.layerControl.addOverlay(cluster, 'Арт-объекты').addTo(map);
     }
   }
 
-  makePopup(data: ArtObject): string {
-    return `` +
-      `<div class="mat-h4">${ data.name }</div>` +
-      `<div>Подробности: ${ data.description }</div>`;
+  makePopup(object: ArtObject) {
+    return this.photoService.getMainPhoto(object.id)
+      .pipe( R.map(
+        photo =>  `` +
+            `<div class="mat-h4">${ object.name }</div>` +
+            `<img src="${ photo.photoPath }" alt="${ object.name }" width="100%" height="60%"/>`+
+            `<div>Подробности: ${ object.description }</div>`
+      ));
   }
 
   calcCenter(objects: ArtObject[]): number[] {
@@ -106,6 +130,20 @@ export class MapComponent implements OnInit {
     return [ 56.49771, 84.97437 ]; // Tomsk
   }
 
+  setIcon(): void {
+    this.iconBlue = L.icon({
+      iconUrl: '/assets/icons/markerBlue.png',
+      iconSize: [ 40, 40 ],
+      iconAnchor: [ 20, 40 ]
+    });
+
+    this.iconRed = L.icon({
+      iconUrl: '/assets/icons/markerRed.png',
+      iconSize: [ 40, 40 ],
+      iconAnchor: [ 20, 40 ]
+    });
+  }
+
   onMapClick(e) {
     L.popup()
       .setLatLng(e.latlng)
@@ -117,6 +155,4 @@ export class MapComponent implements OnInit {
     const selectedId = e.target.options.objectId;
     selectedObject = artObjects.find(o => o.id == selectedId);
   }
-
-
 }

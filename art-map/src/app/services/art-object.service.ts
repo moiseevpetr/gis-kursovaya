@@ -9,12 +9,14 @@ import { ArtObject } from "../models/art-object";
 })
 export class ArtObjectService {
 
-  private url = "/api/device/";
+  example: string = '/assets/data/artObject.json'; // Из файла
+
+  private url = "/api/artObject/";
 
   constructor(private http: HttpClient) {
   };
 
   getArtObjects(): Observable<ArtObject[]> {
-    return this.http.get<ArtObject[]>(this.url);
+    return this.http.get<ArtObject[]>(this.example);
   };
 }

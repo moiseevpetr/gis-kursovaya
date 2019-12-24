@@ -3,9 +3,17 @@
     <mat-icon>clear</mat-icon>
   </button>
 </div>
-<div class="margin30">
-  <h2 class="mat-h2">{{artObject.name}}</h2>
-  <div><span>Тип: </span>{{getStrType(artObject.type)}}</div>
-  <div><span>Дата добавления: </span>{{artObject.creationDate | date:'dd.MM.yyyy H:mm:ss'}}</div>
-  <div><span>Описание: </span>{{artObject.description}}</div>
+<div class="scroll">
+  <div class="margin30">
+    <h2 class="mat-h2">{{artObject.name}}</h2>
+    <img [src]="mainPhotoUrl" [alt]="artObject.name" width="100%" height="40%"/>
+    <div><span>Тип: </span>{{getStrType(artObject.type)}}</div>
+    <div><span>Дата добавления: </span>{{artObject.creationDate | date:'dd.MM.yyyy H:mm:ss'}}</div>
+    <div><span>Описание: </span>{{artObject.description}}</div>
+    <br/>
+    <div>Галерея:</div>
+    <div class="flex">
+      <img *ngFor="let photo of photos" [src]="photo.photoPath" [alt]="artObject.name" class="img"/>
+    </div>
+  </div>
 </div>

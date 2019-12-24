@@ -1,0 +1,26 @@
+﻿[
+  {
+    "id": "1",
+    "artObjectId": "1",
+    "index": 1,
+    "photoPath": "https://i5.photo.2gis.com/images/geo/3/422212508328005_760e.jpg"
+  },
+  {
+    "id": "2",
+    "artObjectId": "1",
+    "index": 2,
+    "photoPath": "https://i5.photo.2gis.com/images/geo/3/422212505429825_5213.jpg"
+  },
+  {
+    "id": "3",
+    "artObjectId": "1",
+    "index": 3,
+    "photoPath": "https://i2.photo.2gis.com/images/geo/3/422212505429832_433c.jpg"
+  },
+  {
+    "id": "4",
+    "artObjectId": "1",
+    "index": 4,
+    "photoPath": "https://i0.photo.2gis.com/images/geo/3/422212505429830_bef7.jpg"
+  }
+]

@@ -2,46 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+import { Photo } from "../models/photo";
+
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
 
-  private url = "/api/photo/";
+  exampleMain: string = '/assets/data/mainPhoto.json';
+  examples: string = '/assets/data/photos.json';
 
-  //example: string = '/assets/data/example.geojson'; // Из файла
+  private url = "/api/photo/";
 
   constructor(private http: HttpClient) {
   };
 
-  getMainPhoto(objectId: string): Observable<Blob> {
-    return this.http.get(this.url + objectId + '/main', { responseType: 'blob' });
+  getMainPhoto(objectId: string): Observable<Photo> {
+    //return this.http.get<Photo>(this.url + objectId + '/main');
+    return this.http.get<Photo>(this.exampleMain);
   }
 
-  getPhotos(objectId: string): Observable<Blob> {
-    return this.http.get(this.url + objectId, { responseType: 'blob' });
-  }
-
-  imageToShow: any;
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-      this.imageToShow = reader.result;
-    }, false);
-
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
-
-  getImageFromService() {
-    //this.isImageLoading = true;
-    this.getMainPhoto("yourImageUrl").subscribe(data => {
-      this.createImageFromBlob(data);
-      //this.isImageLoading = false;
-    }, error => {
-      //this.isImageLoading = false;
-      console.log(error);
-    });
+  getPhotos(objectId: string): Observable<Photo[]> {
+    //return this.http.get<Photo[]>(this.url + objectId);
+    return this.http.get<Photo[]>(this.examples);
   }
 }
