@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gis.ArtMap.Server", "Gis.ArtMap.Server\Gis.ArtMap.Server.csproj", "{BA0DB7DC-F084-4494-85D4-58B1C6C5A394}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA0DB7DC-F084-4494-85D4-58B1C6C5A394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0DB7DC-F084-4494-85D4-58B1C6C5A394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0DB7DC-F084-4494-85D4-58B1C6C5A394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0DB7DC-F084-4494-85D4-58B1C6C5A394}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
