@@ -6,20 +6,16 @@
     using Entities;
     using Microsoft.EntityFrameworkCore;
 
-    public class ArtObjectService : IService<ArtObject>
+    public class PhotoService : IService<Photo>
     {
         private readonly ArtMapDbContext context;
-
-        /// <summary>
-        /// Initialize a new instance if the <see cref="ArtObjectService"/> class.
-        /// </summary>
-        /// <param name="context"></param>
-        public ArtObjectService(ArtMapDbContext context)
+        
+        public PhotoService(ArtMapDbContext context)
         {
             this.context = context;
         }
-
-        public async Task Add(ArtObject entity)
+        
+        public async Task Add(Photo entity)
         {
             if (entity == null)
             {
@@ -29,41 +25,43 @@
             entity.Id = entity.Id == default ?
                 Guid.NewGuid() : entity.Id;
 
-            await this.context.ArtObject.AddAsync(entity);
+            await this.context.Photo.AddAsync(entity);
             await context.SaveChangesAsync();
         }
-        
-        public async Task<IList<ArtObject>> Get()
+
+        public async Task<IList<Photo>> Get()
         {
             if (this.context.ArtObject == null)
             {
                 return null;
             }
 
-            return await context.ArtObject.ToListAsync();
+            return await context.Photo.ToListAsync();
         }
-        public async Task<ArtObject> GetById(Guid id)
+
+        public async Task<Photo> GetById(Guid id)
         {
             if (id == default)
             {
                 return null;
             }
 
-            return await context.ArtObject.FirstOrDefaultAsync(o => o.Id == id);
+            return await context.Photo.FirstOrDefaultAsync(o => o.Id == id);
         }
-        
-        public async Task Update(ArtObject entity)
+
+        public async Task Update(Photo entity)
         {
-            var existedArtObject = await context.ArtObject.FirstOrDefaultAsync(o=> o.Id == entity.Id);
+            var existed = await context.Photo.FirstOrDefaultAsync(o=> o.Id == entity.Id);
             
-            if (existedArtObject == null)
+            if (existed == null)
             {
                 return;
             }
             
-            existedArtObject = entity;
+            existed = entity;
             await context.SaveChangesAsync();
         }
+
         public async Task Delete(Guid id)
         {
             var removedArtObject = await GetById(id);
@@ -72,7 +70,7 @@
                 return;
             }
 
-            context.ArtObject.Remove(removedArtObject);
+            context.Photo.Remove(removedArtObject);
             await context.SaveChangesAsync();
         }
     }

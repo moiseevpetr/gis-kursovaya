@@ -5,10 +5,6 @@
 
     public class ArtMapDbContext : DbContext
     {
-        public ArtMapDbContext()
-        {
-        }
-
         public ArtMapDbContext(DbContextOptions<ArtMapDbContext> options)
             : base(options)
         {
@@ -21,15 +17,6 @@
         public virtual DbSet<PhotoRequest> PhotoRequest { get; set; }
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-//             if (!optionsBuilder.IsConfigured)
-//             {
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http: //go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                 optionsBuilder.UseSqlServer("Data Source=sqlvt2017.main.tpu.ru;Initial Catalog=8I6B_ArtMapDb;Persist Security Info=True;User ID=student3;Password=student3");
-//             }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -75,24 +62,25 @@
                     .IsUnicode(false);
             });
 
-            // modelBuilder.Entity<Photo>(entity =>
-            // {
-            //     entity.HasIndex(e => e.ArtObjectId)
-            //         .HasName("IX_Имеет галерею фото");
-            //
-            //     entity.Property(e => e.Id).ValueGeneratedNever();
-            //
-            //     entity.Property(e => e.PhotoPath)
-            //         .IsRequired()
-            //         .HasMaxLength(30)
-            //         .IsUnicode(false);
-            //
-            //     entity.HasOne(d => d.ArtObject)
-            //         .WithMany(p => p.Photo)
-            //         .HasForeignKey(d => d.ArtObjectId)
-            //         .OnDelete(DeleteBehavior.ClientSetNull)
-            //         .HasConstraintName("Имеет галерею фото");
-            // });
+            modelBuilder.Entity<Photo>(entity =>
+            {
+                entity.HasIndex(e => e.ArtObjectId)
+                    .HasName("IX_Имеет галерею фото");
+            
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            
+                entity.Property(e => e.PhotoPath)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+            
+                entity.HasOne(d => d.ArtObject)
+                    .WithMany(p => p.Photo)
+                    .HasForeignKey(d => d.ArtObjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Имеет галерею фото");
+            });
+            
             //
             // modelBuilder.Entity<PhotoRequest>(entity =>
             // {

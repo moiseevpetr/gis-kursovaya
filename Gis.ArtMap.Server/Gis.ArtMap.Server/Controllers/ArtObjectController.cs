@@ -11,45 +11,45 @@
     [Route("[controller]")]
     public class ArtObjectController : ControllerBase
     {
-        private readonly ArtObjectService artObjectService;
+        private readonly IService<ArtObject> service;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="ArtObjectController"/> class.
         /// </summary>
-        /// <param name="artObjectService">Art object CRUD service.</param>
-        public ArtObjectController(ArtObjectService artObjectService)
+        /// <param name="service">Art object CRUD service.</param>
+        public ArtObjectController(IService<ArtObject> service)
         {
-            this.artObjectService = artObjectService;
+            this.service = service;
         }
 
         [HttpGet]
         public async Task<IList<ArtObject>> Get()
         {
-            return await artObjectService.Get();
+            return await this.service.Get();
         }
         
         [HttpPost]
         public async Task Add(ArtObject artObject)
         { 
-            await this.artObjectService.Add(artObject);
+            await this.service.Add(artObject);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ArtObject> GetById(Guid id)
         {
-            return await artObjectService.GetById(id);
+            return await this.service.GetById(id);
         }
 
         [HttpPut]
         public async Task Update(ArtObject artObject)
         {
-            await this.artObjectService.Update(artObject);
+            await this.service.Update(artObject);
         }
 
         [HttpDelete]
         public async Task Delete(Guid id)
         {
-            await artObjectService.Delete(id);
+            await this.service.Delete(id);
         }
     }
 }
