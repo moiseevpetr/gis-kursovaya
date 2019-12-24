@@ -30,6 +30,7 @@
                 Guid.NewGuid() : artObject.Id;
 
             await this.context.ArtObject.AddAsync(artObject);
+            await context.SaveChangesAsync();
         }
         public async Task<IList<ArtObject>> Get()
         {
@@ -51,13 +52,15 @@
         }
         public async Task Update(ArtObject artObject)
         {
-            var existedArtObject = await context.ArtObject.FirstOrDefaultAsync(o=>o.Id == artObject.Id);
+            var existedArtObject = await context.ArtObject.FirstOrDefaultAsync(o=> o.Id == artObject.Id);
+            
             if (existedArtObject == null)
             {
                 return;
             }
             
             existedArtObject = artObject;
+            await context.SaveChangesAsync();
         }
         public async Task Delete(Guid id)
         {
@@ -68,6 +71,7 @@
             }
 
             context.ArtObject.Remove(removedArtObject);
+            await context.SaveChangesAsync();
         }
     }
 }
