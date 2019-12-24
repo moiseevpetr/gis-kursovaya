@@ -41,7 +41,8 @@ namespace GIS.ArtMap.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<ArtObjectService>();
+            services.AddScoped<IService<ArtObject>, ArtObjectService>();
+            services.AddScoped<IService<Photo>, PhotoService>();
             services.AddDbContext<ArtMapDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ArtMapDatabase")));
             services.AddCors(options =>
             {
