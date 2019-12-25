@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Entities;
     using Microsoft.EntityFrameworkCore;
@@ -9,24 +10,35 @@
     public class PhotoService : IService<Photo>
     {
         private readonly ArtMapDbContext context;
-        
+
         public PhotoService(ArtMapDbContext context)
         {
             this.context = context;
         }
-        
-        public async Task Add(Photo entity)
+
+        public async Task Add(Photo photo)
         {
-            if (entity == null)
+            if (photo == null)
             {
                 return;
             }
 
-            entity.Id = entity.Id == default ?
-                Guid.NewGuid() : entity.Id;
+            photo.Id = photo.Id == default ? Guid.NewGuid() : photo.Id;
 
-            await this.context.Photo.AddAsync(entity);
-            await context.SaveChangesAsync();
+            await this.context.Photo.AddAsync(photo);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Guid id)
+        {
+            Photo removedArtObject = await GetById(id);
+            if (removedArtObject == null)
+            {
+                return;
+            }
+
+            this.context.Photo.Remove(removedArtObject);
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<IList<Photo>> Get()
@@ -36,7 +48,17 @@
                 return null;
             }
 
-            return await context.Photo.ToListAsync();
+            return await this.context.Photo.ToListAsync();
+        }
+
+        public async Task<IList<Photo>> GetAllById(Guid id)
+        {
+            if (id == default)
+            {
+                return null;
+            }
+
+            return await GetItemsById(id).Result.ToListAsync();
         }
 
         public async Task<Photo> GetById(Guid id)
@@ -46,32 +68,30 @@
                 return null;
             }
 
-            return await context.Photo.FirstOrDefaultAsync(o => o.Id == id);
+            return await GetItemsById(id).Result
+                .OrderBy(p => p.Id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task Update(Photo entity)
         {
-            var existed = await context.Photo.FirstOrDefaultAsync(o=> o.Id == entity.Id);
-            
+            Photo existed = await this.context.Photo.FirstOrDefaultAsync(o => o.Id == entity.Id);
+
             if (existed == null)
             {
                 return;
             }
-            
+
             existed = entity;
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
         }
 
-        public async Task Delete(Guid id)
+        private async Task<IQueryable<Photo>> GetItemsById(Guid id)
         {
-            var removedArtObject = await GetById(id);
-            if (removedArtObject == null)
-            {
-                return;
-            }
+            ArtObject artObject = await this.context.ArtObject
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            context.Photo.Remove(removedArtObject);
-            await context.SaveChangesAsync();
+            return artObject?.Photo.AsQueryable();
         }
     }
 }

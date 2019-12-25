@@ -19,17 +19,17 @@
             this.context = context;
         }
 
-        public async Task Add(ArtObject entity)
+        public async Task Add(ArtObject photo)
         {
-            if (entity == null)
+            if (photo == null)
             {
                 return;
             }
 
-            entity.Id = entity.Id == default ?
-                Guid.NewGuid() : entity.Id;
+            photo.Id = photo.Id == default ?
+                Guid.NewGuid() : photo.Id;
 
-            await this.context.ArtObject.AddAsync(entity);
+            await this.context.ArtObject.AddAsync(photo);
             await context.SaveChangesAsync();
         }
         

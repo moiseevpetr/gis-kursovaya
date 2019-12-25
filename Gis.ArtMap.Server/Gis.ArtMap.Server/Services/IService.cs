@@ -6,7 +6,7 @@
 
     public interface IService<T>
     {
-        Task Add(T entity);
+        Task Add(T photo);
         Task<IList<T>> Get();
         Task<T> GetById(Guid id);
         Task Update(T entity);
