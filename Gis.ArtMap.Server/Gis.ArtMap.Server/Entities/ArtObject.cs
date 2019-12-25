@@ -23,6 +23,5 @@
         public int TypeKey { get; set; }
 
         public virtual ArtObjectType TypeKeyNavigation { get; set; }
-        public string Verification { get; set; }
     }
 }

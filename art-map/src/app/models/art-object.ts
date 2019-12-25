@@ -5,7 +5,7 @@ export interface ArtObject {
   name: string;
   description: string;
   creationDate: Date;
-  type: ArtObjectType;
+  typeKey: ArtObjectType;
   longitude: number;
   latitude: number;
 }

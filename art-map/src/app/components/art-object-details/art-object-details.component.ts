@@ -40,8 +40,17 @@ export class ArtObjectDetailsComponent implements OnInit, OnChanges {
       });
   }
 
-  getStrType(key: number): string {
-    return ArtObjectType[key];
+  getStrType(type: ArtObjectType): string {
+    switch (type) {
+      case ArtObjectType.Graffiti:
+        return 'Граффити';
+      case ArtObjectType.Installation:
+        return 'Инсталляция';
+      case ArtObjectType.Monument:
+        return 'Памятник';
+      default:
+        return 'Нет';
+    }
   }
 
   getMainPhotoUrl(): string {

@@ -12,7 +12,7 @@ export class PhotoService {
   exampleMain: string = '/assets/data/mainPhoto.json';
   examples: string = '/assets/data/photos.json';
 
-  private url = "/api/photo/";
+  private url = "/photo/";
 
   constructor(private http: HttpClient) {
   };

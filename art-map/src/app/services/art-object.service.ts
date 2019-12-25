@@ -11,12 +11,12 @@ export class ArtObjectService {
 
   example: string = '/assets/data/artObject.json'; // Из файла
 
-  private url = "/api/artObject/";
+  private url = "/artObject/";
 
   constructor(private http: HttpClient) {
   };
 
   getArtObjects(): Observable<ArtObject[]> {
-    return this.http.get<ArtObject[]>(this.example);
+    return this.http.get<ArtObject[]>(this.url);
   };
 }

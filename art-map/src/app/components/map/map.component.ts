@@ -6,6 +6,7 @@ import * as R from 'rxjs/operators'
 import { ArtObjectService } from "../../services/art-object.service";
 import { ArtObject } from "../../models/art-object";
 import { PhotoService } from "../../services/photo.service";
+import { ArtObjectType } from "../../models/art-object-type.enum";
 
 let map: L.map;
 let selectedObject: ArtObject;
@@ -21,6 +22,8 @@ export class MapComponent implements OnInit {
   layerControl: L.control.layers;
   iconBlue: L.icon;
   iconRed: L.icon;
+  iconGreen: L.icon;
+  iconGray: L.icon;
 
   constructor(
     private artObjectService: ArtObjectService,
@@ -55,7 +58,7 @@ export class MapComponent implements OnInit {
     map = L.map('map', {
       center: this.calcCenter(artObjects),
       zoom: 12
-    }).on('click', this.onMapClick);
+    });
 
     this.addTiles();
     this.addMarkers();
@@ -82,7 +85,7 @@ export class MapComponent implements OnInit {
 
         const marker : L.marker = L.marker([object.longitude, object.latitude], {
           objectId: object.id,
-          icon: this.iconRed
+          icon: this.getIcon(object.typeKey)
         }).on('click', this.onMarkerClick);
 
         this.makePopup(object).subscribe(
@@ -130,6 +133,19 @@ export class MapComponent implements OnInit {
     return [ 56.49771, 84.97437 ]; // Tomsk
   }
 
+  getIcon(type: ArtObjectType): L.icon {
+    switch (type) {
+      case ArtObjectType.Graffiti:
+        return this.iconRed;
+      case ArtObjectType.Installation:
+        return this.iconBlue;
+      case ArtObjectType.Monument:
+        return this.iconGreen;
+      default:
+        return this.iconGray;
+    }
+  }
+
   setIcon(): void {
     this.iconBlue = L.icon({
       iconUrl: '/assets/icons/markerBlue.png',
@@ -142,13 +158,18 @@ export class MapComponent implements OnInit {
       iconSize: [ 40, 40 ],
       iconAnchor: [ 20, 40 ]
     });
-  }
 
-  onMapClick(e) {
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent("You clicked the map at " + e.latlng.toString())
-      .openOn(map);
+    this.iconGreen = L.icon({
+      iconUrl: '/assets/icons/markerGreen.png',
+      iconSize: [ 40, 40 ],
+      iconAnchor: [ 20, 40 ]
+    });
+
+    this.iconGray = L.icon({
+      iconUrl: '/assets/icons/markerGray.png',
+      iconSize: [ 40, 40 ],
+      iconAnchor: [ 20, 40 ]
+    });
   }
 
   onMarkerClick(e) {

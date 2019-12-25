@@ -36,12 +36,6 @@
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Verification)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
                 entity.HasOne(d => d.TypeKeyNavigation)
                     .WithMany(p => p.ArtObject)
                     .HasForeignKey(d => d.TypeKey)
