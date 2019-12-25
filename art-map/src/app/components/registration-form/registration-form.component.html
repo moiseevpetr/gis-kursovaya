@@ -33,7 +33,7 @@
     <div></div>
 
     <mat-form-field>
-      <input id="password" matInput placeholder="Пароль" formControlName="password">
+      <input id="password" type="password" matInput placeholder="Пароль" formControlName="password">
     </mat-form-field>
 
     <div *ngIf="registrationForm.controls['password'].invalid && registrationForm.controls['password'].dirty">

@@ -51,32 +51,33 @@
             return await this.context.Photo.ToListAsync();
         }
 
-        public async Task<IList<Photo>> GetAllById(Guid id)
+        public async Task<IList<Photo>> GetAllById(Guid objectId)
         {
-            if (id == default)
+            if (objectId == default)
             {
                 return null;
             }
             
-            var artObject = await this.context.ArtObject
-                .FirstOrDefaultAsync(o => o.Id == id);
+            var photos = await this.context.Photo
+                .Where(p => p.ArtObjectId == objectId)
+                .ToListAsync();
 
-            return artObject?.Photo.ToList();
+            return photos;
         }
 
-        public async Task<Photo> GetById(Guid id)
+        public async Task<Photo> GetById(Guid objectId)
         {
-            if (id == default)
+            if (objectId == default)
             {
                 return null;
             }
             
-            var artObject = await this.context.ArtObject
-                .FirstOrDefaultAsync(o => o.Id == id);
+            var photo = await this.context.Photo
+                .Where(p => p.ArtObjectId == objectId)
+                .OrderBy(p => p.Index)
+                .FirstOrDefaultAsync();
 
-            return artObject?.Photo
-                .OrderBy(p => p.Id)
-                .FirstOrDefault();
+            return photo;
         }
 
         public async Task Update(Photo entity)

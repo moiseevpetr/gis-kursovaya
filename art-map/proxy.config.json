@@ -3,5 +3,10 @@
     "target": "https://localhost:5001/",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/photo": {
+    "target": "https://localhost:5001/",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

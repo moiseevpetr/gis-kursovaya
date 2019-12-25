@@ -18,7 +18,7 @@
     <div></div>
 
     <mat-form-field>
-      <input id="password" matInput placeholder="Пароль" formControlName="password">
+      <input id="password" matInput type="password" placeholder="Пароль" formControlName="password">
     </mat-form-field>
 
     <div *ngIf="authorizationForm.controls['password'].invalid && authorizationForm.controls['password'].dirty">

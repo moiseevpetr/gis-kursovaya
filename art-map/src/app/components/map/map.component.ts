@@ -108,10 +108,16 @@ export class MapComponent implements OnInit {
   makePopup(object: ArtObject) {
     return this.photoService.getMainPhoto(object.id)
       .pipe( R.map(
-        photo =>  `` +
-            `<div class="mat-h4">${ object.name }</div>` +
-            `<img src="${ photo.photoPath }" alt="${ object.name }" width="100%" height="60%"/>`+
+        photo =>  {
+          let img =``;
+          if (photo){
+            img = `<img src="${ photo.photoPath }" alt="${ object.name }" width="100%" height="60%"/>`;
+          }
+
+          return ``+
+            `<div class="mat-h4">${ object.name }</div>` + img +
             `<div>Подробности: ${ object.description }</div>`
+        }
       ));
   }
 
