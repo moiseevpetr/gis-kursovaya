@@ -12,8 +12,13 @@
     <div><span>Описание: </span>{{artObject.description}}</div>
     <br/>
     <div>Галерея:</div>
-    <div class="flex">
-      <img *ngFor="let photo of photos" [src]="photo.photoPath" [alt]="artObject.name" class="img"/>
+    <div class="flex" *ngIf="photos && photos.length > 1">
+      <div *ngFor="let photo of photos; let i = index">
+        <img *ngIf="i>0" [src]="photo.photoPath" [alt]="artObject.name" class="img"/>
+      </div>
+    </div>
+    <div *ngIf="!photos || photos.length <= 1">
+      Пусто
     </div>
   </div>
 </div>
