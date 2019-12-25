@@ -1,0 +1,45 @@
+<div>
+  <h2 mat-dialog-title>Вход</h2>
+  <mat-dialog-content [formGroup]="authorizationForm">
+
+    <mat-form-field>
+      <input id="email" matInput placeholder="Электронная почта" formControlName="email">
+    </mat-form-field>
+
+    <div *ngIf="authorizationForm.controls['email'].invalid && authorizationForm.controls['email'].dirty">
+      <span class="mat-error" *ngIf="authorizationForm.controls['email'].errors?.email">
+        Неверный формат адреса почты.
+      </span>
+      <span  class="mat-error" *ngIf="authorizationForm.controls['email'].errors?.maxlength">
+        Адрес почты не должен превышать {{authorizationForm.controls['email'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field>
+      <input id="password" matInput placeholder="Пароль" formControlName="password">
+    </mat-form-field>
+
+    <div *ngIf="authorizationForm.controls['password'].invalid && authorizationForm.controls['password'].dirty">
+      <span class="mat-error" *ngIf="authorizationForm.controls['password'].errors?.required">
+        Необходимо ввести пароль.
+      </span>
+      <span  class="mat-error" *ngIf="authorizationForm.controls['password'].errors?.maxlength">
+        Пароль не должен превышать {{authorizationForm.controls['password'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+    <div *ngIf="authorizationForm.invalid && authorizationForm.dirty">
+      <span  class="mat-error" *ngIf="authError">
+        Неверные логин и/или пароль.
+      </span>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="logIn()" [disabled]="authorizationForm.invalid">Войти</button>
+    <button mat-raised-button (click)="close()">Отмена</button>
+  </mat-dialog-actions>
+</div>

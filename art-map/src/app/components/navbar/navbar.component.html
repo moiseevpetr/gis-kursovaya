@@ -2,7 +2,15 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <span class="title">Карта Арт-объектов</span>
-      <button mat-button routerLink="">Главная</button>
+      <div class="fill-space"></div>
+      <div *ngIf="getCurrentUser()">
+        Привет, {{getCurrentUser().name}}!
+        <button mat-button (click)="logOut()">Выйти</button>
+      </div>
+      <div *ngIf="!getCurrentUser()">
+        <button mat-button (click)="openAuthDialog()">Войти</button>
+        <button mat-button (click)="openRegDialog()">Зарегистрироваться</button>
+      </div>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>
