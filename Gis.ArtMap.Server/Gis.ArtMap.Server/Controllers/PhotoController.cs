@@ -9,7 +9,7 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class PhotoController
+    public class PhotoController : ControllerBase
     {
         private readonly PhotoService photoService;
         
@@ -30,10 +30,16 @@
             await this.photoService.Add(photo);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}/main")]
         public async Task<Photo> GetById(Guid id)
         {
             return await photoService.GetById(id);
+        }
+        
+        [HttpGet("{id:guid}")]
+        public async Task<IList<Photo>> GetAllById(Guid id)
+        {
+            return await photoService.GetAllById(id);
         }
 
         [HttpPut]
