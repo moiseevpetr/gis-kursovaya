@@ -17,7 +17,7 @@
         /// Initialize a new instance of the <see cref="ArtObjectController"/> class.
         /// </summary>
         /// <param name="service">Art object CRUD service.</param>
-        public ArtObjectController(IService<ArtObject> service)
+        public ArtObjectController(ArtObjectService service)
         {
             this.service = service;
         }

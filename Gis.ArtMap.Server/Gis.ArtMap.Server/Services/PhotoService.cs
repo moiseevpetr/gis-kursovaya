@@ -57,8 +57,11 @@
             {
                 return null;
             }
+            
+            var artObject = await this.context.ArtObject
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            return await GetItemsById(id).Result.ToListAsync();
+            return artObject?.Photo.ToList();
         }
 
         public async Task<Photo> GetById(Guid id)
@@ -67,10 +70,13 @@
             {
                 return null;
             }
+            
+            var artObject = await this.context.ArtObject
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            return await GetItemsById(id).Result
+            return artObject?.Photo
                 .OrderBy(p => p.Id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
         }
 
         public async Task Update(Photo entity)
@@ -84,14 +90,6 @@
 
             existed = entity;
             await this.context.SaveChangesAsync();
-        }
-
-        private async Task<IQueryable<Photo>> GetItemsById(Guid id)
-        {
-            ArtObject artObject = await this.context.ArtObject
-                .FirstOrDefaultAsync(o => o.Id == id);
-
-            return artObject?.Photo.AsQueryable();
         }
     }
 }

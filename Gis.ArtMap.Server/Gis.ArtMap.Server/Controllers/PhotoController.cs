@@ -9,7 +9,7 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class PhotoController
+    public class PhotoController : ControllerBase
     {
         private readonly PhotoService photoService;
         
