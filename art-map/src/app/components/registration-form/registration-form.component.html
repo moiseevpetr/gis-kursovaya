@@ -1,9 +1,9 @@
-<div>
-  <h2 mat-dialog-title>Вход</h2>
+<div class="form-style">
+  <h2 mat-dialog-title>Регистрация</h2>
   <mat-dialog-content [formGroup]="registrationForm">
 
-    <mat-form-field>
-      <input id="name" matInput placeholder="Логин" formControlName="name">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Логин" formControlName="name">
     </mat-form-field>
 
     <div *ngIf="registrationForm.controls['name'].invalid && registrationForm.controls['name'].dirty">
@@ -17,31 +17,43 @@
 
     <div></div>
 
-    <mat-form-field>
-      <input id="email" matInput placeholder="Электронная почта" formControlName="email">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Электронная почта" formControlName="email">
     </mat-form-field>
 
     <div *ngIf="registrationForm.controls['email'].invalid && registrationForm.controls['email'].dirty">
       <span class="mat-error" *ngIf="registrationForm.controls['email'].errors?.email">
         Неверный формат адреса почты.
       </span>
-      <span  class="mat-error" *ngIf="registrationForm.controls['email'].errors?.maxlength">
+      <span class="mat-error" *ngIf="registrationForm.controls['email'].errors?.maxlength">
         Адрес почты не должен превышать {{registrationForm.controls['email'].errors?.maxlength.requiredLength}} символов.
       </span>
     </div>
 
     <div></div>
 
-    <mat-form-field>
-      <input id="password" type="password" matInput placeholder="Пароль" formControlName="password">
+    <mat-form-field class="full-width">
+      <input type="password" matInput placeholder="Пароль" formControlName="password">
     </mat-form-field>
 
     <div *ngIf="registrationForm.controls['password'].invalid && registrationForm.controls['password'].dirty">
       <span class="mat-error" *ngIf="registrationForm.controls['password'].errors?.required">
         Необходимо ввести пароль.
       </span>
-      <span  class="mat-error" *ngIf="registrationForm.controls['password'].errors?.maxlength">
+      <span class="mat-error" *ngIf="registrationForm.controls['password'].errors?.maxlength">
         Пароль не должен превышать {{registrationForm.controls['password'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="full-width">
+      <input type="password" matInput placeholder="Подтверждение пароля" formControlName="password2">
+    </mat-form-field>
+
+    <div *ngIf="!confirmPass()">
+      <span class="mat-error">
+        Пароли должны совпадать.
       </span>
     </div>
 
@@ -54,7 +66,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="signIn()" [disabled]="registrationForm.invalid">Зарегистрироваться</button>
+    <button mat-raised-button color="primary" (click)="signIn()" [disabled]="registrationForm.invalid || !confirmPass()">Зарегистрироваться</button>
     <button mat-raised-button (click)="close()">Отмена</button>
   </mat-dialog-actions>
 </div>

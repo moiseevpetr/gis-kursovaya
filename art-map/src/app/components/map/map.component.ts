@@ -1,4 +1,5 @@
 import { OnInit, Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as R from 'rxjs/operators'
@@ -7,6 +8,8 @@ import { ArtObjectService } from "../../services/art-object.service";
 import { ArtObject } from "../../models/art-object";
 import { PhotoService } from "../../services/photo.service";
 import { ArtObjectType } from "../../models/art-object-type.enum";
+import { AddObjectFormComponent } from "../add-object-form/add-object-form.component";
+import { AuthorizationService } from "../../services/authorization.service";
 
 let map: L.map;
 let selectedObject: ArtObject;
@@ -25,11 +28,14 @@ export class MapComponent implements OnInit {
   iconGreen: L.icon;
   iconGray: L.icon;
 
+  addObjDialogRef: MatDialogRef<AddObjectFormComponent>;
+
   constructor(
+    private dialogModel: MatDialog,
     private artObjectService: ArtObjectService,
-    private photoService: PhotoService
-  ) {
-  }
+    private photoService: PhotoService,
+    private authorizationService: AuthorizationService
+  ) { }
 
   ngOnInit() {
     this.setIcon();
@@ -181,5 +187,13 @@ export class MapComponent implements OnInit {
   onMarkerClick(e) {
     const selectedId = e.target.options.objectId;
     selectedObject = artObjects.find(o => o.id == selectedId);
+  }
+
+  addObjectClick() {
+    this.addObjDialogRef = this.dialogModel.open(AddObjectFormComponent);
+  }
+
+  getCurrentUser() {
+    return this.authorizationService.currentUser;
   }
 }

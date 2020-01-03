@@ -19,6 +19,8 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { ArtObjectDetailsComponent } from './components/art-object-details/art-object-details.component';
 import { AuthorizationFormComponent } from './components/authorization-form/authorization-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
+import { AddObjectFormComponent } from './components/add-object-form/add-object-form.component';
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { RegistrationFormComponent } from './components/registration-form/regist
       NavbarComponent,
       ArtObjectDetailsComponent,
       AuthorizationFormComponent,
-      RegistrationFormComponent
+      RegistrationFormComponent,
+      AddObjectFormComponent
   ],
   imports: [
     BrowserModule,
@@ -41,17 +44,19 @@ import { RegistrationFormComponent } from './components/registration-form/regist
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
-    ArtObjectService
+      ArtObjectService
   ],
   bootstrap: [
-    AppComponent
+      AppComponent
   ],
   entryComponents: [
-    AuthorizationFormComponent,
-    RegistrationFormComponent
+      AuthorizationFormComponent,
+      RegistrationFormComponent,
+      AddObjectFormComponent
   ]
 })
 export class AppModule { }

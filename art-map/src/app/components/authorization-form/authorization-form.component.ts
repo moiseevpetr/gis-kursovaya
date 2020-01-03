@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 
-import { User } from "../../models/user";
-import {AuthorizationService} from "../../services/authorization.service";
-import {AuthorizationContract} from "../../models/authorization.contract";
+import { AuthorizationService } from "../../services/authorization.service";
+import { AuthorizationContract } from "../../models/authorization.contract";
 
 @Component({
   selector: 'app-authorization-form',

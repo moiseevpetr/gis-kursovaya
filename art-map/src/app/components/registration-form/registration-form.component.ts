@@ -37,11 +37,19 @@ export class RegistrationFormComponent implements OnInit {
       email: [
         '',
         [
+          Validators.required,
           Validators.email,
           Validators.maxLength(50)
         ]
       ],
       password: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50)
+        ]
+      ],
+      password2: [
         '',
         [
           Validators.required,
@@ -71,5 +79,9 @@ export class RegistrationFormComponent implements OnInit {
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  confirmPass() {
+    return this.registrationForm.controls['password'].value == this.registrationForm.controls['password2'].value
   }
 }

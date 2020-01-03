@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 import { AuthorizationFormComponent } from "../authorization-form/authorization-form.component";
-import {AuthorizationService} from "../../services/authorization.service";
-import {RegistrationFormComponent} from "../registration-form/registration-form.component";
+import { AuthorizationService } from "../../services/authorization.service";
+import { RegistrationFormComponent } from "../registration-form/registration-form.component";
 
 @Component({
   selector: 'app-navbar',

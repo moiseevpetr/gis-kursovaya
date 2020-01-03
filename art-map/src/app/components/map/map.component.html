@@ -7,4 +7,6 @@
   <div class="details" *ngIf="getSelectedObject()">
     <app-art-object-details [artObject]="getSelectedObject()" (artObjectChange)="setSelectedObject($event)"></app-art-object-details>
   </div>
+  <button mat-raised-button *ngIf="getCurrentUser()"
+          (click)="addObjectClick()" class="add-button">Добавить арт-объект</button>
 </div>

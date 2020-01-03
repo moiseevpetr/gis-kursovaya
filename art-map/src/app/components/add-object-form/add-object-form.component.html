@@ -1,0 +1,59 @@
+<div class="form-style">
+  <h2 mat-dialog-title>Заявка на добавление арт-объекта</h2>
+  <mat-dialog-content [formGroup]="addObjectForm">
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Название" formControlName="name">
+    </mat-form-field>
+
+    <div *ngIf="addObjectForm.controls['name'].invalid && addObjectForm.controls['name'].dirty">
+      <span class="mat-error" *ngIf="addObjectForm.controls['name'].errors?.required">
+        Необходимо ввести название арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="addObjectForm.controls['name'].errors?.maxlength">
+        Название арт-объекта не должно превышать {{addObjectForm.controls['name'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="full-width">
+      <mat-label>Тип объекта</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of types" [value]="type.type">
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="addObjectForm.controls['type'].invalid && addObjectForm.controls['type'].touched">
+      <span class="mat-error" *ngIf="addObjectForm.controls['type'].errors?.required">
+        Необходимо выбрать тип арт-объекта.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Описание" formControlName="description" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+
+    <div></div>
+
+    <mat-form-field class="half-width">
+      <input matInput placeholder="Долгота" formControlName="longitude">
+    </mat-form-field>
+
+    <div></div>
+
+    <mat-form-field class="half-width">
+      <input matInput placeholder="Широта" formControlName="latitude">
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="add()" [disabled]="addObjectForm.invalid">Добавить</button>
+    <button mat-raised-button (click)="close()">Отмена</button>
+  </mat-dialog-actions>
+</div>
