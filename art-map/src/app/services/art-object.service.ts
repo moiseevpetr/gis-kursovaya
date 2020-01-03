@@ -14,9 +14,9 @@ export class ArtObjectService {
   private url = "/artObject/";
 
   constructor(private http: HttpClient) {
-  };
+  }
 
   getArtObjects(): Observable<ArtObject[]> {
-    return this.http.get<ArtObject[]>(this.example);
-  };
+    return this.http.get<ArtObject[]>(this.url);
+  }
 }

@@ -10,27 +10,26 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
-import { ArtObjectService } from "./services/art-object.service";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { ArtObjectDetailsComponent } from './components/art-object-details/art-object-details.component';
 import { AuthorizationFormComponent } from './components/authorization-form/authorization-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { AddObjectFormComponent } from './components/add-object-form/add-object-form.component';
-import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   declarations: [
-      AppComponent,
-      MapComponent,
-      NavbarComponent,
-      ArtObjectDetailsComponent,
-      AuthorizationFormComponent,
-      RegistrationFormComponent,
-      AddObjectFormComponent
+    AppComponent,
+    MapComponent,
+    NavbarComponent,
+    ArtObjectDetailsComponent,
+    AuthorizationFormComponent,
+    RegistrationFormComponent,
+    AddObjectFormComponent
   ],
   imports: [
     BrowserModule,
@@ -47,16 +46,14 @@ import { MatSelectModule } from "@angular/material/select";
     MatInputModule,
     MatSelectModule
   ],
-  providers: [
-      ArtObjectService
-  ],
+  providers: [],
   bootstrap: [
-      AppComponent
+    AppComponent
   ],
   entryComponents: [
-      AuthorizationFormComponent,
-      RegistrationFormComponent,
-      AddObjectFormComponent
+    AuthorizationFormComponent,
+    RegistrationFormComponent,
+    AddObjectFormComponent
   ]
 })
 export class AppModule { }

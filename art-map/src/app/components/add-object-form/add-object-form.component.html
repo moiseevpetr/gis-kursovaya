@@ -44,11 +44,29 @@
       <input matInput placeholder="Долгота" formControlName="longitude">
     </mat-form-field>
 
+    <div *ngIf="addObjectForm.controls['longitude'].invalid && addObjectForm.controls['longitude'].dirty">
+      <span class="mat-error" *ngIf="addObjectForm.controls['longitude'].errors?.required">
+        Необходимо ввести долготу арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="addObjectForm.controls['longitude'].errors?.pattern">
+        Неверный формат долготы.
+      </span>
+    </div>
+
     <div></div>
 
     <mat-form-field class="half-width">
       <input matInput placeholder="Широта" formControlName="latitude">
     </mat-form-field>
+
+    <div *ngIf="addObjectForm.controls['latitude'].invalid && addObjectForm.controls['latitude'].dirty">
+      <span class="mat-error" *ngIf="addObjectForm.controls['latitude'].errors?.required">
+        Необходимо ввести широту арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="addObjectForm.controls['latitude'].errors?.pattern">
+        Неверный формат широты.
+      </span>
+    </div>
 
   </mat-dialog-content>
 

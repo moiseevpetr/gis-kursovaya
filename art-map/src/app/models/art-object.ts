@@ -1,4 +1,4 @@
-import {ArtObjectType} from "./art-object-type.enum";
+import { ArtObjectType } from "./art-object-type.enum";
 
 export interface ArtObject {
   id: string;
