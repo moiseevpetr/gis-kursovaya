@@ -1,0 +1,15 @@
+﻿{
+  "id": "2",
+  "reason": "reason",
+  "artObjectId": "2",
+  "userId": "5",
+  "date": "2019-12-25T18:03:26.607",
+  "requestType": 2,
+  "requestStatus": 2,
+  "artObjectName": "Арт-объект 2",
+  "artObjectDescription": "artObjectDescription",
+  "artObjectCreationDate": "2019-12-25T18:03:26.607",
+  "artObjectType": 2,
+  "artObjectLongitude": 50,
+  "artObjectLatitude": 80
+}

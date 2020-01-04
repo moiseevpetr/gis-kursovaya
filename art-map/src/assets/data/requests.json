@@ -1,6 +1,6 @@
 ﻿[
   {
-    "id": "string",
+    "id": "1",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -15,7 +15,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "2",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -30,7 +30,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "3",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -45,7 +45,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "1",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -60,7 +60,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "2",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -75,7 +75,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "3",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -90,7 +90,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "1",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -105,7 +105,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "2",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",
@@ -120,7 +120,7 @@
     "artObjectLatitude": null
   },
   {
-    "id": "string",
+    "id": "3",
     "reason": "string",
     "artObjectId": "string",
     "userId": "string",

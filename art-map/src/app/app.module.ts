@@ -45,20 +45,20 @@ import { RequestDetailsComponent } from './components/request-details/request-de
     RequestDetailsComponent
   ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatGridListModule,
-        MatIconModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatTableModule
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule,
+      BrowserAnimationsModule,
+      MatToolbarModule,
+      MatButtonModule,
+      MatGridListModule,
+      MatIconModule,
+      MatDialogModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+      MatTableModule
     ],
   providers: [],
   bootstrap: [
@@ -71,7 +71,8 @@ import { RequestDetailsComponent } from './components/request-details/request-de
     EditObjectFormComponent,
     DeleteObjectFormComponent,
     UserDetailsComponent,
-    AdminRequestsComponent
+    AdminRequestsComponent,
+    RequestDetailsComponent
   ]
 })
 export class AppModule { }

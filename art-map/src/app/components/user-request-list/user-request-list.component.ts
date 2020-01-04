@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 
 import { Request } from "../../models/request";
 import { RequestType } from "../../models/request-type.enum";
 import { RequestStatus } from "../../models/request-status.enum";
+import { RequestDetailsComponent } from "../request-details/request-details.component";
 
 @Component({
   selector: 'app-request-list',
@@ -13,10 +15,14 @@ export class UserRequestListComponent implements OnInit {
 
   @Input() requests: Request[];
 
+  requestDialogRef: MatDialogRef<RequestDetailsComponent>;
+
   displayedColumns: string[] = ['date', 'artObjectName', 'requestType', 'requestStatus', 'details'];
 
-  constructor() {
-  }
+  constructor(
+    private dialogRef: MatDialogRef<UserRequestListComponent>,
+    private dialogModel: MatDialog
+  ) { }
 
   ngOnInit() {
   }
@@ -48,6 +54,9 @@ export class UserRequestListComponent implements OnInit {
   }
 
   openRequestDetails(requestId: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {requestId: requestId};
 
+    this.requestDialogRef = this.dialogModel.open(RequestDetailsComponent, dialogConfig);
   }
 }

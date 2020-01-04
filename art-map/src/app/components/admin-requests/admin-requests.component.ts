@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 
 import { RequestService } from "../../services/request.service";
 import { Request } from "../../models/request";
-import {RequestType} from "../../models/request-type.enum";
-import {RequestStatus} from "../../models/request-status.enum";
+import { RequestType } from "../../models/request-type.enum";
+import { RequestStatus } from "../../models/request-status.enum";
+import { RequestDetailsComponent } from "../request-details/request-details.component";
 
 @Component({
   selector: 'app-admin-requests',
@@ -15,11 +16,14 @@ export class AdminRequestsComponent implements OnInit {
 
   requests: Request[];
 
+  requestDialogRef: MatDialogRef<RequestDetailsComponent>;
+
   displayedColumns: string[] = ['date', 'user', 'artObjectName', 'requestType', 'requestStatus', 'details'];
 
   constructor(
     private requestService: RequestService,
-    private dialogRef: MatDialogRef<AdminRequestsComponent>
+    private dialogRef: MatDialogRef<AdminRequestsComponent>,
+    private dialogModel: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +68,9 @@ export class AdminRequestsComponent implements OnInit {
   }
 
   openRequestDetails(requestId: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {requestId: requestId};
 
+    this.requestDialogRef = this.dialogModel.open(RequestDetailsComponent, dialogConfig);
   }
 }

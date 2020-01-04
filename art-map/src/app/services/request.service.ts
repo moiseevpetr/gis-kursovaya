@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 })
 export class RequestService {
 
-  example: string = '/assets/data/request.json';
+  example: string = '/assets/data/request';
   examples: string = '/assets/data/requests.json';
 
   private url = "/request/";
@@ -39,5 +39,25 @@ export class RequestService {
           }
         )
       );
+  }
+
+  getRequest(id: string): Observable<Request> {
+    return this.http.get<Request>(this.example + id + '.json')
+      .pipe(
+        map(
+          request => {
+            request.user = {id:'5', name:'Username', email:'user@mail.com', userRole:1};
+            return request;
+          }
+        )
+      );
+  }
+
+  acceptRequest(id: string): Observable<any> {
+    return this.http.get(this.example + id + '.json');
+  }
+
+  rejectRequest(id: string): Observable<any>  {
+    return this.http.get(this.example + id + '.json');
   }
 }

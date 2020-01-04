@@ -1,1 +1,32 @@
-<p>request-details works!</p>
+<div class="form-style">
+  <h2 mat-dialog-title>Заявка номер {{request.id}}</h2>
+  <mat-dialog-content>
+
+    <div>
+      <h3 *ngIf="request.requestType == 1">Заявка на добавление арт-объекта</h3>
+      <h3 *ngIf="request.requestType == 2">Заявка на редактирование арт-объекта</h3>
+      <h3 *ngIf="request.requestType == 3">Заявка на удаление арт-объекта</h3>
+      <p>Статус заявки: {{getStrRequestStatus(request.requestStatus)}}</p>
+      <p>Пользователь: {{request.user.name}}</p>
+      <p>Дата заявки: {{request.date}}</p>
+      <p>Название: {{request.artObjectName}}</p>
+      <p *ngIf="request.requestType == 3">Причина удаления: {{request.reason}}</p>
+      <div *ngIf="request.requestType == 1 || request.requestType == 2">
+        <p>Тип объекта: {{getStrArtObjectType(request.artObjectType)}}</p>
+        <p>Описание: {{request.artObjectDescription}}</p>
+        <p>Долгота: {{request.artObjectLongitude}}; Широта: {{request.artObjectLatitude}}</p>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <span>
+      <button *ngIf="authorizationService?.currentUser?.userRole > 1"
+              mat-raised-button color="primary" (click)="acceptRequest()">Принять</button>
+      <button *ngIf="authorizationService?.currentUser?.userRole > 1"
+              mat-raised-button color="warn" (click)="rejectRequest()">Отклонить</button>
+      <button mat-raised-button (click)="close()">Закрыть</button>
+    </span>
+  </mat-dialog-actions>
+</div>
