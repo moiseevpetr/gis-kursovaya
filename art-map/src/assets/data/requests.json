@@ -1,0 +1,47 @@
+﻿[
+  {
+    "id": "string",
+    "reason": "string",
+    "artObjectId": "string",
+    "userId": "string",
+    "date": "2019-12-25T18:03:26.607",
+    "requestType": 1,
+    "requestStatus": 1,
+    "artObjectName": "Арт-объект 1",
+    "artObjectDescription": null,
+    "artObjectCreationDate": null,
+    "artObjectType": null,
+    "artObjectLongitude": null,
+    "artObjectLatitude": null
+  },
+  {
+    "id": "string",
+    "reason": "string",
+    "artObjectId": "string",
+    "userId": "string",
+    "date": "2019-12-25T18:03:26.607",
+    "requestType": 2,
+    "requestStatus": 2,
+    "artObjectName": "Арт-объект 2",
+    "artObjectDescription": null,
+    "artObjectCreationDate": null,
+    "artObjectType": null,
+    "artObjectLongitude": null,
+    "artObjectLatitude": null
+  },
+  {
+    "id": "string",
+    "reason": "string",
+    "artObjectId": "string",
+    "userId": "string",
+    "date": "2019-12-25T18:03:26.607",
+    "requestType": 3,
+    "requestStatus": 3,
+    "artObjectName": "Арт-объект 3",
+    "artObjectDescription": null,
+    "artObjectCreationDate": null,
+    "artObjectType": null,
+    "artObjectLongitude": null,
+    "artObjectLatitude": null
+  }
+]

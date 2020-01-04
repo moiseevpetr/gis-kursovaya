@@ -9,7 +9,8 @@ import { Request } from "../models/request";
 })
 export class RequestService {
 
-  examples: string = '/assets/data/request.json';
+  example: string = '/assets/data/request.json';
+  examples: string = '/assets/data/requests.json';
 
   private url = "/request/";
 
@@ -18,6 +19,11 @@ export class RequestService {
 
   addRequest(request: Request): Observable<any> {
     return this.http.put<Request>(this.url, request);
-    //return this.http.get<Request>(this.examples);
+    //return this.http.get<Request>(this.example);
+  }
+
+  getRequestForUser(userId: string): Observable<Request[]> {
+    return this.http.get<Request[]>(this.url + userId + '/user');
+    //return this.http.get<Request[]>(this.examples);
   }
 }

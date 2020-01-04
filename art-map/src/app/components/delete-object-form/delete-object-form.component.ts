@@ -71,18 +71,18 @@ export class DeleteObjectFormComponent implements OnInit {
       date: new Date(),
       requestType: RequestType.DeleteObject,
       requestStatus: RequestStatus.Consideration,
-      artObjectName: null,
-      artObjectDescription: null,
-      artObjectCreationDate: null,
-      artObjectType: null,
-      artObjectLongitude: null,
-      artObjectLatitude: null
+      artObjectName: this.artObject.name,
+      artObjectDescription: this.artObject.description,
+      artObjectCreationDate: this.artObject.creationDate,
+      artObjectType: this.artObject.typeKey,
+      artObjectLongitude: this.artObject.longitude,
+      artObjectLatitude: this.artObject.latitude
     };
 
-    alert(JSON.stringify(request));
-    //this.requestService.addRequest(request)
-    //  .subscribe(() =>
-    //    this.dialogRef.close()
-    //  );
+    //alert(JSON.stringify(request));
+    this.requestService.addRequest(request)
+      .subscribe(() =>
+        this.dialogRef.close()
+      );
   }
 }

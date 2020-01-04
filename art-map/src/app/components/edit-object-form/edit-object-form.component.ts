@@ -99,10 +99,10 @@ export class EditObjectFormComponent implements OnInit {
       artObjectLatitude: editRequest.latitude
     };
 
-    alert(JSON.stringify(request));
-    //this.requestService.addRequest(request)
-    //  .subscribe(() =>
-    //    this.dialogRef.close()
-    //  );
+    //alert(JSON.stringify(request));
+    this.requestService.addRequest(request)
+      .subscribe(() =>
+        this.dialogRef.close()
+      );
   }
 }

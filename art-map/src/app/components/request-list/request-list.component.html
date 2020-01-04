@@ -1,0 +1,50 @@
+<div *ngIf="requests?.length > 0" class="list-size">
+  <h2 class="mat-h2">Заявки</h2>
+
+  <div class="scroll">
+    <mat-table [dataSource]="requests">
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Дата</mat-header-cell>
+        <mat-cell *matCellDef="let request">
+          {{request.date | date:'dd.MM.yyyy H:mm:ss'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="artObjectName">
+        <mat-header-cell *matHeaderCellDef>Арт-объект</mat-header-cell>
+        <mat-cell *matCellDef="let request">
+          {{request.artObjectName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="requestType">
+        <mat-header-cell *matHeaderCellDef>Тип заявки</mat-header-cell>
+        <mat-cell *matCellDef="let request">
+          {{getStrRequestType(request.requestType)}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="requestStatus">
+        <mat-header-cell *matHeaderCellDef>Статус заявки</mat-header-cell>
+        <mat-cell *matCellDef="let request">
+          {{getStrRequestStatus(request.requestStatus)}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let request">
+          <button mat-flat-button color="primary" (click)="openRequestDetails(request.id)">Подробнее</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row >
+    </mat-table>
+  </div>
+</div>
+
+<div *ngIf="requests?.length == 0">
+  <h2 class="mat-h2">Список заявок пуст</h2>
+</div>

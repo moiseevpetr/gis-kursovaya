@@ -1,0 +1,26 @@
+<div class="form-style">
+  <h2 mat-dialog-title>Пользователь {{user.name}}</h2>
+  <mat-dialog-content>
+
+    <div class="full-width flex-container">
+      <h3 class="mat-h3">{{user.name}}</h3>
+      <div class="fill-space"></div>
+      <a routerLink="" (click)="changeUser()">Изменить</a>
+    </div>
+    <div class="full-width flex-container">
+      <h4 class="mat-h4">{{user.email}}</h4>
+      <div class="fill-space"></div>
+      <a routerLink="" (click)="changeUser()">Изменить</a>
+    </div>
+    <a routerLink="" (click)="changePass()">Сменить пароль</a>
+
+    <br/>
+
+    <app-request-list [requests]="requests">Загрузка списка запросов...</app-request-list>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Закрыть</button>
+  </mat-dialog-actions>
+</div>

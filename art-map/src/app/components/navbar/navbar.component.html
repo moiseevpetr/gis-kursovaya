@@ -4,7 +4,7 @@
       <span class="title">Карта Арт-объектов</span>
       <div class="fill-space"></div>
       <div *ngIf="getCurrentUser()">
-        Привет, {{getCurrentUser().name}}!
+        <button mat-button (click)="openUserDetails()">Привет, {{getCurrentUser().name}}!</button>
         <button mat-button (click)="logOut()">Выйти</button>
       </div>
       <div *ngIf="!getCurrentUser()">
