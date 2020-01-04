@@ -24,7 +24,9 @@ import { AddObjectFormComponent } from './components/add-object-form/add-object-
 import { EditObjectFormComponent } from './components/edit-object-form/edit-object-form.component';
 import { DeleteObjectFormComponent } from './components/delete-object-form/delete-object-form.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
-import { RequestListComponent } from './components/request-list/request-list.component';
+import { UserRequestListComponent } from './components/user-request-list/user-request-list.component';
+import { AdminRequestsComponent } from './components/admin-requests/admin-requests.component';
+import { RequestDetailsComponent } from './components/request-details/request-details.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { RequestListComponent } from './components/request-list/request-list.com
     EditObjectFormComponent,
     DeleteObjectFormComponent,
     UserDetailsComponent,
-    RequestListComponent
+    UserRequestListComponent,
+    AdminRequestsComponent,
+    RequestDetailsComponent
   ],
     imports: [
         BrowserModule,
@@ -66,7 +70,8 @@ import { RequestListComponent } from './components/request-list/request-list.com
     AddObjectFormComponent,
     EditObjectFormComponent,
     DeleteObjectFormComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AdminRequestsComponent
   ]
 })
 export class AppModule { }

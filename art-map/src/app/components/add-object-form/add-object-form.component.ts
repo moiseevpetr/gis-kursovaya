@@ -83,6 +83,7 @@ export class AddObjectFormComponent implements OnInit {
       reason: '',
       artObjectId: null,
       userId: this.authorizationService.currentUser.id,
+      user: null,
       date: new Date(),
       requestType: RequestType.AddObject,
       requestStatus: RequestStatus.Consideration,

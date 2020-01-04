@@ -5,6 +5,7 @@ import { AuthorizationFormComponent } from "../authorization-form/authorization-
 import { AuthorizationService } from "../../services/authorization.service";
 import { RegistrationFormComponent } from "../registration-form/registration-form.component";
 import { UserDetailsComponent } from "../user-details/user-details.component";
+import { AdminRequestsComponent } from "../admin-requests/admin-requests.component";
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,7 @@ export class NavbarComponent implements OnInit {
   authDialogRef: MatDialogRef<AuthorizationFormComponent>;
   regDialogRef: MatDialogRef<RegistrationFormComponent>;
   userDialogRef: MatDialogRef<UserDetailsComponent>;
+  adminDialogRef: MatDialogRef<AdminRequestsComponent>;
 
   constructor(
     private dialogModel: MatDialog,
@@ -46,5 +48,9 @@ export class NavbarComponent implements OnInit {
     dialogConfig.data = {user: this.getCurrentUser()};
 
     this.userDialogRef = this.dialogModel.open(UserDetailsComponent, dialogConfig);
+  }
+
+  openAdminRequests() {
+    this.adminDialogRef = this.dialogModel.open(AdminRequestsComponent);
   }
 }

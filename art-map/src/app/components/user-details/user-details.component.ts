@@ -13,7 +13,7 @@ import { Request } from "../../models/request";
 export class UserDetailsComponent implements OnInit {
 
   user: User;
-  requests: Request[] = [];
+  requests: Request[];
 
   constructor(
     private requestService: RequestService,

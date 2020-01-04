@@ -12,7 +12,7 @@ import { User } from "../models/user";
 })
 export class AuthorizationService {
 
-  example: string = '/assets/data/authorization.txt'; // Из файла
+  example: string = '/assets/data/authorization.json'; // Из файла
 
   private url = "/authorization/";
 
@@ -22,12 +22,12 @@ export class AuthorizationService {
   }
 
   logIn(auth: AuthorizationContract): Observable<boolean> {
-    return this.http.put<boolean>(this.url + 'auth', auth);
-    /*return this.http.get(this.example)
+    //return this.http.put<User>(this.url + 'auth', auth)
+    return this.http.get<User>(this.example)
       .pipe(
         map(user => {
           if (user) {
-            this.currentUser = {id:'', name: 'User', email: 'e@mail', userRole: 3};
+            this.currentUser = user;
             return true;
           }
           else {
@@ -35,22 +35,22 @@ export class AuthorizationService {
             return false;
           }
         })
-      );*/
+      );
   }
 
   logOut(): Observable<any> {
     this.currentUser = null;
-    return this.http.get<boolean>(this.url + 'out');
-    //return this.http.get(this.example);
+    //return this.http.get<boolean>(this.url + 'out');
+    return this.http.get(this.example);
   }
 
   signIn(reg: RegistrationContract): Observable<boolean> {
-    return this.http.put<boolean>(this.url + 'reg', reg);
-    /*return this.http.get(this.example)
+    //return this.http.put<User>(this.url + 'reg', reg)
+    return this.http.get<User>(this.example)
       .pipe(
         map(user => {
           if (user) {
-            this.currentUser = {id:'', name: reg.name, email: reg.email, userRole: 3};
+            this.currentUser = user;
             return true;
           }
           else {
@@ -58,6 +58,6 @@ export class AuthorizationService {
             return false;
           }
         })
-      );*/
+      );
   }
 }

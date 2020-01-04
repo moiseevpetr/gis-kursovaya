@@ -6,10 +6,10 @@ import { RequestStatus } from "../../models/request-status.enum";
 
 @Component({
   selector: 'app-request-list',
-  templateUrl: './request-list.component.html',
-  styleUrls: ['./request-list.component.less']
+  templateUrl: './user-request-list.component.html',
+  styleUrls: ['./user-request-list.component.less']
 })
-export class RequestListComponent implements OnInit {
+export class UserRequestListComponent implements OnInit {
 
   @Input() requests: Request[];
 

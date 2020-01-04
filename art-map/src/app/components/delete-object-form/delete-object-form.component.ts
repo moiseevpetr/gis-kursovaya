@@ -68,6 +68,7 @@ export class DeleteObjectFormComponent implements OnInit {
       reason: deleteRequest.reason,
       artObjectId: this.artObject.id,
       userId: this.authorizationService.currentUser.id,
+      user: null,
       date: new Date(),
       requestType: RequestType.DeleteObject,
       requestStatus: RequestStatus.Consideration,

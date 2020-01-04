@@ -88,6 +88,7 @@ export class EditObjectFormComponent implements OnInit {
       reason: '',
       artObjectId: this.artObject.id,
       userId: this.authorizationService.currentUser.id,
+      user: null,
       date: new Date(),
       requestType: RequestType.EditObject,
       requestStatus: RequestStatus.Consideration,

@@ -4,6 +4,7 @@
       <span class="title">Карта Арт-объектов</span>
       <div class="fill-space"></div>
       <div *ngIf="getCurrentUser()">
+        <button *ngIf="getCurrentUser().userRole > 1" mat-button (click)="openAdminRequests()">Заявки</button>
         <button mat-button (click)="openUserDetails()">Привет, {{getCurrentUser().name}}!</button>
         <button mat-button (click)="logOut()">Выйти</button>
       </div>
