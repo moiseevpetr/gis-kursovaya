@@ -65,4 +65,9 @@ export class AuthorizationFormComponent implements OnInit {
   close(): void {
     this.dialogRef.close();
   }
+
+  rememberPass() {
+    alert('Для восстановления пароля свяжитесь с администратором ' +
+      'по адресу электронной почты moiseew.petya@yandex.ru.')
+  }
 }

@@ -1,0 +1,24 @@
+<div class="form-style">
+  <h2 mat-dialog-title>Заявка на удаление арт-объекта</h2>
+  <mat-dialog-content [formGroup]="deleteObjectForm">
+
+    <h3 class="mat-h3">{{artObject.name}}</h3>
+    <h4 class="mat-h4">{{getStrType(artObject.typeKey)}}</h4>
+
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Причина удаления" formControlName="reason" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+
+    <div *ngIf="deleteObjectForm.controls['reason'].invalid && deleteObjectForm.controls['reason'].dirty">
+      <span  class="mat-error" *ngIf="deleteObjectForm.controls['name'].errors?.maxlength">
+        Причина удаления арт-объекта не должна превышать {{deleteObjectForm.controls['name'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="delete()" [disabled]="deleteObjectForm.invalid">Удалить</button>
+    <button mat-raised-button (click)="close()">Отмена</button>
+  </mat-dialog-actions>
+</div>

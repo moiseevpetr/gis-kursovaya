@@ -22,26 +22,26 @@ export class AuthorizationService {
   }
 
   logIn(auth: AuthorizationContract): Observable<boolean> {
-    //return this.http.get<boolean>(this.url + /auth, auth)
-    return this.http.get(this.example)
-      .pipe(
-        map(user => {
-          if (user) {
-            this.currentUser = {id:'', name: 'User', email: '', userRole: 3};
-            return true;
-          }
-          else {
-            this.currentUser = null;
-            return false;
-          }
-        })
-      );
+    return this.http.put<boolean>(this.url + '/auth', auth);
+    //return this.http.get(this.example)
+    //  .pipe(
+    //    map(user => {
+    //      if (user) {
+    //        this.currentUser = {id:'', name: 'User', email: '', userRole: 3};
+    //        return true;
+    //      }
+    //      else {
+    //        this.currentUser = null;
+    //        return false;
+    //      }
+    //    })
+    //  );
   }
 
   logOut(): Observable<any> {
     this.currentUser = null;
-    //return this.http.put<boolean>(this.url + '/out', out);
-    return this.http.get(this.example);
+    return this.http.get<boolean>(this.url + '/out');
+    //return this.http.get(this.example);
   }
 
   signIn(reg: RegistrationContract): Observable<boolean> {

@@ -1,9 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 
 import { ArtObject } from "../../models/art-object";
 import { ArtObjectType } from "../../models/art-object-type.enum";
 import { Photo } from "../../models/photo";
 import { PhotoService } from "../../services/photo.service";
+import { EditObjectFormComponent } from "../edit-object-form/edit-object-form.component";
+import { AuthorizationService } from "../../services/authorization.service";
+import { DeleteObjectFormComponent } from "../delete-object-form/delete-object-form.component";
 
 @Component({
   selector: 'app-art-object-details',
@@ -17,8 +21,13 @@ export class ArtObjectDetailsComponent implements OnInit, OnChanges {
   photos: Photo[];
   mainPhotoUrl: string;
 
+  editDialogRef: MatDialogRef<EditObjectFormComponent>;
+  deleteDialogRef: MatDialogRef<DeleteObjectFormComponent>;
+
   constructor(
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private authorizationService: AuthorizationService,
+    private dialogModel: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -63,5 +72,19 @@ export class ArtObjectDetailsComponent implements OnInit, OnChanges {
 
   onCloseClick() {
     this.artObjectChange.emit(null);
+  }
+
+  openEditDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {artObject: this.artObject};
+
+    this.editDialogRef = this.dialogModel.open(EditObjectFormComponent, dialogConfig);
+  }
+
+  openDeleteDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {artObject: this.artObject};
+
+    this.deleteDialogRef = this.dialogModel.open(DeleteObjectFormComponent, dialogConfig);
   }
 }

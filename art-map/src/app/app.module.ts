@@ -20,6 +20,8 @@ import { ArtObjectDetailsComponent } from './components/art-object-details/art-o
 import { AuthorizationFormComponent } from './components/authorization-form/authorization-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { AddObjectFormComponent } from './components/add-object-form/add-object-form.component';
+import { EditObjectFormComponent } from './components/edit-object-form/edit-object-form.component';
+import { DeleteObjectFormComponent } from './components/delete-object-form/delete-object-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AddObjectFormComponent } from './components/add-object-form/add-object-
     ArtObjectDetailsComponent,
     AuthorizationFormComponent,
     RegistrationFormComponent,
-    AddObjectFormComponent
+    AddObjectFormComponent,
+    EditObjectFormComponent,
+    DeleteObjectFormComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,9 @@ import { AddObjectFormComponent } from './components/add-object-form/add-object-
   entryComponents: [
     AuthorizationFormComponent,
     RegistrationFormComponent,
-    AddObjectFormComponent
+    AddObjectFormComponent,
+    EditObjectFormComponent,
+    DeleteObjectFormComponent
   ]
 })
 export class AppModule { }

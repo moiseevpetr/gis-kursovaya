@@ -10,7 +10,14 @@
     <div><span>Тип: </span>{{getStrType(artObject.typeKey)}}</div>
     <div><span>Дата добавления: </span>{{artObject.creationDate | date:'dd.MM.yyyy H:mm:ss'}}</div>
     <div><span>Описание: </span>{{artObject.description}}</div>
+
+    <div *ngIf="authorizationService.currentUser">
+      <button mat-flat-button color="primary" (click)="openEditDialog()">Редактировать объект</button>
+      <button mat-flat-button color="warn" (click)="openDeleteDialog()">Удалить объект</button>
+    </div>
+
     <br/>
+
     <div>Галерея:</div>
     <div class="flex" *ngIf="photos && photos.length > 1">
       <div *ngFor="let photo of photos; let i = index">

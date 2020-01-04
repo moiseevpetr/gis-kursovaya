@@ -29,7 +29,7 @@
         Пароль не должен превышать {{authorizationForm.controls['password'].errors?.maxlength.requiredLength}} символов.
       </span>
     </div>
-    <a routerLink="">Забыли пароль?</a>
+    <a routerLink="" (click)="rememberPass()">Забыли пароль?</a>
 
     <div *ngIf="authorizationForm.invalid && authorizationForm.dirty">
       <span  class="mat-error" *ngIf="authError">

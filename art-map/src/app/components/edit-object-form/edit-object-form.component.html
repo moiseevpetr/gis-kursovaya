@@ -1,0 +1,77 @@
+<div class="form-style">
+  <h2 mat-dialog-title>Заявка на редактирование арт-объекта</h2>
+  <mat-dialog-content [formGroup]="editObjectForm">
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Название" formControlName="name">
+    </mat-form-field>
+
+    <div *ngIf="editObjectForm.controls['name'].invalid && editObjectForm.controls['name'].dirty">
+      <span class="mat-error" *ngIf="editObjectForm.controls['name'].errors?.required">
+        Необходимо ввести название арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="editObjectForm.controls['name'].errors?.maxlength">
+        Название арт-объекта не должно превышать {{editObjectForm.controls['name'].errors?.maxlength.requiredLength}} символов.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="full-width">
+      <mat-label>Тип объекта</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of types" [value]="type.type">
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="editObjectForm.controls['type'].invalid && editObjectForm.controls['type'].touched">
+      <span class="mat-error" *ngIf="editObjectForm.controls['type'].errors?.required">
+        Необходимо выбрать тип арт-объекта.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Описание" formControlName="description" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+
+    <div></div>
+
+    <mat-form-field class="half-width">
+      <input matInput placeholder="Долгота" formControlName="longitude">
+    </mat-form-field>
+
+    <div *ngIf="editObjectForm.controls['longitude'].invalid && editObjectForm.controls['longitude'].dirty">
+      <span class="mat-error" *ngIf="editObjectForm.controls['longitude'].errors?.required">
+        Необходимо ввести долготу арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="editObjectForm.controls['longitude'].errors?.pattern">
+        Неверный формат долготы.
+      </span>
+    </div>
+
+    <div></div>
+
+    <mat-form-field class="half-width">
+      <input matInput placeholder="Широта" formControlName="latitude">
+    </mat-form-field>
+
+    <div *ngIf="editObjectForm.controls['latitude'].invalid && editObjectForm.controls['latitude'].dirty">
+      <span class="mat-error" *ngIf="editObjectForm.controls['latitude'].errors?.required">
+        Необходимо ввести широту арт-объекта.
+      </span>
+      <span  class="mat-error" *ngIf="editObjectForm.controls['latitude'].errors?.pattern">
+        Неверный формат широты.
+      </span>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="edit()" [disabled]="editObjectForm.invalid">Сохранить</button>
+    <button mat-raised-button (click)="close()">Отмена</button>
+  </mat-dialog-actions>
+</div>
