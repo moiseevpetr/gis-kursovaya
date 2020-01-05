@@ -1,20 +1,28 @@
 <div class="form-style">
-  <h2 mat-dialog-title>Заявка номер {{request.id}}</h2>
+  <h2 mat-dialog-title>Заявка номер {{request?.id}}</h2>
   <mat-dialog-content>
 
     <div>
-      <h3 *ngIf="request.requestType == 1">Заявка на добавление арт-объекта</h3>
-      <h3 *ngIf="request.requestType == 2">Заявка на редактирование арт-объекта</h3>
-      <h3 *ngIf="request.requestType == 3">Заявка на удаление арт-объекта</h3>
-      <p>Статус заявки: {{getStrRequestStatus(request.requestStatus)}}</p>
-      <p>Пользователь: {{request.user.name}}</p>
-      <p>Дата заявки: {{request.date}}</p>
-      <p>Название: {{request.artObjectName}}</p>
-      <p *ngIf="request.requestType == 3">Причина удаления: {{request.reason}}</p>
-      <div *ngIf="request.requestType == 1 || request.requestType == 2">
-        <p>Тип объекта: {{getStrArtObjectType(request.artObjectType)}}</p>
-        <p>Описание: {{request.artObjectDescription}}</p>
-        <p>Долгота: {{request.artObjectLongitude}}; Широта: {{request.artObjectLatitude}}</p>
+      <h3 *ngIf="request?.requestType == 1">Заявка на добавление арт-объекта</h3>
+      <h3 *ngIf="request?.requestType == 2">Заявка на редактирование арт-объекта</h3>
+      <h3 *ngIf="request?.requestType == 3">Заявка на удаление арт-объекта</h3>
+      <p>Статус заявки: {{getStrRequestStatus(request?.requestStatus)}}</p>
+      <p>Пользователь: {{request?.user?.name}}</p>
+      <p>Дата заявки: {{request?.date}}</p>
+      <p>Название: {{request?.artObjectName}}</p>
+      <p *ngIf="request?.requestType == 3">Причина удаления: {{request?.reason}}</p>
+      <div *ngIf="request?.requestType == 1 || request?.requestType == 2">
+        <p>Тип объекта: {{getStrArtObjectType(request?.artObjectType)}}</p>
+        <p>Описание: {{request?.artObjectDescription}}</p>
+        <p>Долгота: {{request?.artObjectLongitude}}; Широта: {{request?.artObjectLatitude}}</p>
+      </div>
+
+      <div class="flex">
+        <div *ngFor="let photoRequest of request?.photoRequests" class="photo-container">
+          <img [src]="photoRequest?.photoPath" alt="Новое фото" class="img">
+          <mat-icon *ngIf="photoRequest?.photoRequestType == 1" class="add icon">add</mat-icon>
+          <mat-icon *ngIf="photoRequest?.photoRequestType == 2" class="remove icon">remove</mat-icon>
+        </div>
       </div>
     </div>
 

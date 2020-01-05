@@ -2,6 +2,7 @@ import { ArtObjectType } from "./art-object-type.enum";
 import { RequestType } from "./request-type.enum";
 import { RequestStatus } from "./request-status.enum";
 import { User } from "./user";
+import { PhotoRequest } from "./photo-request";
 
 export interface Request {
   id: string;
@@ -18,4 +19,5 @@ export interface Request {
   artObjectType: ArtObjectType;
   artObjectLongitude: number;
   artObjectLatitude: number;
+  photoRequests: PhotoRequest[];
 }

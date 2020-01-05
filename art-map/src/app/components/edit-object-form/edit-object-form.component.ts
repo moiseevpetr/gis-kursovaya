@@ -9,6 +9,10 @@ import { Request } from "../../models/request";
 import { RequestType } from "../../models/request-type.enum";
 import { RequestStatus } from "../../models/request-status.enum";
 import { ArtObject } from "../../models/art-object";
+import { PhotoRequest } from "../../models/photo-request";
+import { PhotoRequestType } from "../../models/photo-request-type.enum";
+import { PhotoService } from "../../services/photo.service";
+import { Photo } from "../../models/photo";
 
 @Component({
   selector: 'app-edit-object',
@@ -18,7 +22,12 @@ import { ArtObject } from "../../models/art-object";
 export class EditObjectFormComponent implements OnInit {
 
   editObjectForm: FormGroup;
+  addPhotoForm: FormGroup;
+
   artObject: ArtObject;
+  photos: Photo[];
+  deletedPhotos: Photo[] = [];
+  photoRequests: PhotoRequest[] = [];
 
   types: any = [
     {type: ArtObjectType.Graffiti, name: 'Граффити'},
@@ -29,6 +38,7 @@ export class EditObjectFormComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private requestService: RequestService,
+    private photoService: PhotoService,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditObjectFormComponent>,
     @Inject(MAT_DIALOG_DATA) data
@@ -36,8 +46,9 @@ export class EditObjectFormComponent implements OnInit {
     this.artObject = data.artObject;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.formInit();
+    this.loadPhotos();
   }
 
   formInit(): void {
@@ -71,10 +82,64 @@ export class EditObjectFormComponent implements OnInit {
         ]
       ]
     });
+
+    this.addPhotoForm = this.fb.group({
+      photoUrl: ['', Validators.required]
+    });
+  }
+
+  loadPhotos(): void {
+    this.photoService.getPhotos(this.artObject.id)
+      .subscribe(photos =>
+        this.photos = photos
+      );
   }
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  addPhotoRequest(): void {
+    let photoRequest: PhotoRequest = {
+      id: null,
+      requestId: null,
+      photoPath: this.addPhotoForm.controls['photoUrl'].value,
+      photoRequestType: PhotoRequestType.AddPhoto,
+      photoId: null
+    };
+
+    this.photoRequests.push(photoRequest);
+    this.addPhotoForm.controls['photoUrl'].setValue('');
+  }
+
+  deletePhotoRequest(index: number): void {
+    let photoRequest = this.photoRequests[index];
+
+    if(photoRequest.photoRequestType == PhotoRequestType.DeletePhoto) {
+      let photoIndex = this.deletedPhotos.findIndex(pr=>pr.id==photoRequest.photoId);
+      let photo: Photo = this.deletedPhotos[photoIndex];
+
+      this.photos.push(photo);
+      this.deletedPhotos.splice(photoIndex,1);
+    }
+
+    this.photoRequests.splice(index, 1);
+  }
+
+  deletePhoto(index: number) {
+    let photo = this.photos[index];
+
+    let photoRequest: PhotoRequest = {
+      id: null,
+      requestId: null,
+      photoPath: photo.photoPath,
+      photoRequestType: PhotoRequestType.DeletePhoto,
+      photoId: photo.id
+    };
+
+    this.photoRequests.push(photoRequest);
+    this.deletedPhotos.push(photo);
+    this.photos.splice(index, 1);
   }
 
   edit(): void  {
@@ -97,7 +162,8 @@ export class EditObjectFormComponent implements OnInit {
       artObjectCreationDate: this.artObject.creationDate,
       artObjectType: editRequest.type,
       artObjectLongitude: editRequest.longitude,
-      artObjectLatitude: editRequest.latitude
+      artObjectLatitude: editRequest.latitude,
+      photoRequests: this.photoRequests
     };
 
     //alert(JSON.stringify(request));

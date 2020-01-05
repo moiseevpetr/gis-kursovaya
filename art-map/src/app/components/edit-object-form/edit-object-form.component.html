@@ -68,6 +68,28 @@
       </span>
     </div>
 
+    <div [formGroup]="addPhotoForm">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Url-адрес фото" formControlName="photoUrl"/>
+      </mat-form-field>
+
+      <button mat-raised-button (click)="addPhotoRequest()">Добавить фото</button>
+
+      <div class="flex">
+        <div *ngFor="let photo of photos; let i = index" class="photo-container">
+          <img [src]="photo.photoPath" alt="Старое фото" class="img">
+          <mat-icon class="white icon" (click)="deletePhoto(i)">clear</mat-icon>
+        </div>
+        <div *ngFor="let photoRequest of photoRequests; let i = index" class="photo-container">
+          <img [src]="photoRequest.photoPath" alt="Новое фото" class="img">
+          <mat-icon *ngIf="photoRequest?.photoRequestType == 1"
+                    (click)="deletePhotoRequest(i)" class="add icon">clear</mat-icon>
+          <mat-icon *ngIf="photoRequest?.photoRequestType == 2"
+                    (click)="deletePhotoRequest(i)" class="remove icon">clear</mat-icon>
+        </div>
+      </div>
+    </div>
+
   </mat-dialog-content>
 
   <mat-dialog-actions>

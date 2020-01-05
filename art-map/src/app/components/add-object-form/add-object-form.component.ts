@@ -8,6 +8,8 @@ import { Request } from "../../models/request";
 import { AuthorizationService } from "../../services/authorization.service";
 import { RequestType } from "../../models/request-type.enum";
 import { RequestStatus } from "../../models/request-status.enum";
+import { PhotoRequest } from "../../models/photo-request";
+import { PhotoRequestType } from "../../models/photo-request-type.enum";
 
 @Component({
   selector: 'app-add-object-form',
@@ -17,6 +19,9 @@ import { RequestStatus } from "../../models/request-status.enum";
 export class AddObjectFormComponent implements OnInit {
 
   addObjectForm: FormGroup;
+  addPhotoForm: FormGroup;
+
+  photoRequests: PhotoRequest[] = [];
 
   types: any = [
     {type: ArtObjectType.Graffiti, name: 'Граффити'},
@@ -66,10 +71,31 @@ export class AddObjectFormComponent implements OnInit {
         ]
       ]
     });
+
+    this.addPhotoForm = this.fb.group({
+      photoUrl: ['', Validators.required]
+    });
   }
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  addPhotoRequest(): void {
+    let photoRequest: PhotoRequest = {
+      id: null,
+      requestId: null,
+      photoPath: this.addPhotoForm.controls['photoUrl'].value,
+      photoRequestType: PhotoRequestType.AddPhoto,
+      photoId: null
+    };
+
+    this.photoRequests.push(photoRequest);
+    this.addPhotoForm.controls['photoUrl'].setValue('');
+  }
+
+  deletePhotoRequest(index: number): void {
+    this.photoRequests.splice(index, 1);
   }
 
   add(): void  {
@@ -92,7 +118,8 @@ export class AddObjectFormComponent implements OnInit {
       artObjectCreationDate: new Date(),
       artObjectType: addRequest.type,
       artObjectLongitude: addRequest.longitude,
-      artObjectLatitude: addRequest.latitude
+      artObjectLatitude: addRequest.latitude,
+      photoRequests: this.photoRequests
     };
 
     //alert(JSON.stringify(request));

@@ -11,5 +11,21 @@
   "artObjectCreationDate": "2019-12-25T18:03:26.607",
   "artObjectType": 1,
   "artObjectLongitude": 50,
-  "artObjectLatitude": 80
+  "artObjectLatitude": 80,
+  "photoRequests": [
+    {
+      "id":null,
+      "requestId":null,
+      "photoPath":"http://tomskayapisanitsa.ru/wp-content/uploads/2018/12/2-3.jpg",
+      "photoRequestType":1,
+      "photoId":null
+    },
+    {
+      "id":null,
+      "requestId":null,
+      "photoPath":"http://tomskayapisanitsa.ru/wp-content/uploads/2018/12/1-2.jpg",
+      "photoRequestType":1,
+      "photoId":null
+    }
+  ]
 }

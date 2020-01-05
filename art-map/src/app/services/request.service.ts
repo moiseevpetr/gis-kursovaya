@@ -20,15 +20,15 @@ export class RequestService {
 
   addRequest(request: Request): Observable<any> {
     //return this.http.put<Request>(this.url, request);
-    return this.http.get<Request>(this.example);
+    return this.http.get<Request>(this.examples);
   }
 
-  getRequestForUser(userId: string): Observable<Request[]> {
+  getRequestForUser(userId: string): Observable<Request[]> { // request + photoRequests
     //return this.http.get<Request[]>(this.url + userId + '/user');
     return this.http.get<Request[]>(this.examples);
   }
 
-  getConsiderateRequests(): Observable<Request[]> { // request + user
+  getConsiderateRequests(): Observable<Request[]> { // request + user + photoRequests
     //return this.http.get<Request[]>(this.url + 'considerate');
     return this.http.get<Request[]>(this.examples)
       .pipe(
