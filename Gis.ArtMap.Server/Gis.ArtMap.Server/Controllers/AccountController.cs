@@ -1,74 +1,44 @@
 ﻿namespace Gis.ArtMap.Server.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using Entities;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.IdentityModel.Tokens;
+    using Services;
 
     public class AccountController : Controller
     {
-        private readonly DbSet<User> users;
+        private readonly AccountService accountService;
 
-        public AccountController(ArtMapDbContext context)
+        public AccountController(AccountService accountService)
         {
-            this.users = context.User;
+            this.accountService = accountService;
         }
 
         [HttpPost("/token")]
-        public IActionResult Token(string username, string password)
+        public async Task<IActionResult> GetToken(string username, string password)
         {
-            ClaimsIdentity identity = GetIdentity(username, password);
-            if (identity == null)
+            var response = await this.accountService.GetToken(username, password);
+
+            if (response != null)
             {
-                return BadRequest(new { errorText = "Invalid username or password." });
+                return Json(response);
             }
 
-            DateTime now = DateTime.UtcNow;
-
-            var jwt = new JwtSecurityToken(
-                AuthOptions.ISSUER,
-                AuthOptions.AUDIENCE,
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var response = new
-            {
-                access_token = encodedJwt,
-                username = identity.Name
-            };
-
-            return Json(response);
+            return BadRequest(new { errorText = "Invalid username or password." });
         }
 
-        private ClaimsIdentity GetIdentity(string username, string password)
+        [HttpPost("/register")]
+        public async Task<IActionResult> Register(string name, string password, string email)
         {
-            User person = this.users.FirstOrDefault(x => x.Name == username && x.Password == password);
-
-            if (person == null)
+            try
             {
-                return null;
+                var user = await accountService.Register(name, password, email);
+                return Json(user);
             }
-
-            var claims = new List<Claim>
+            catch (Exception exception)
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, person.Name),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
-            };
-
-            var claimsIdentity =
-                new ClaimsIdentity(claims,
-                    "Token",
-                    ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-            return claimsIdentity;
+                return BadRequest(exception.Message);
+            }
         }
     }
 }

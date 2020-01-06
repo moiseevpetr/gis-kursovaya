@@ -9,7 +9,7 @@
         {
             Request = new HashSet<Request>();
         }
-
+        
         public string Email { get; set; }
 
         public Guid Id { get; set; }
