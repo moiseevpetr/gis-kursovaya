@@ -38,11 +38,11 @@
         }
 
         [HttpGet("{id:guid}/decline")]
-        public async Task<IActionResult> Decline(Guid id)
+        public async Task<IActionResult> Decline(Guid id, string reason)
         {
             try
             {
-                await this.requestService.Decline(id);
+                await this.requestService.Decline(id, reason);
                 return StatusCode(200);
             }
             catch (Exception exception)
