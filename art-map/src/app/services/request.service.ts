@@ -20,33 +20,44 @@ export class RequestService {
 
   addRequest(request: Request): Observable<any> {
     //return this.http.put<Request>(this.url, request);
-    return this.http.get<Request>(this.examples);
+    return this.http.get(this.examples);
   }
 
-  getRequestForUser(userId: string): Observable<Request[]> { // request + photoRequests
+  getRequestsForUser(userId: string): Observable<Request[]> {
     //return this.http.get<Request[]>(this.url + userId + '/user');
     return this.http.get<Request[]>(this.examples);
   }
 
-  getConsiderateRequests(): Observable<Request[]> { // request + user + photoRequests
+  getConsiderateRequests(): Observable<Request[]> { // request + user
     //return this.http.get<Request[]>(this.url + 'considerate');
     return this.http.get<Request[]>(this.examples)
       .pipe(
         map(
           requests => {
-            requests.forEach(r => r.user = {id:'5', name:'Username', email:'user@mail.com', userRole:1});
+            requests.forEach(
+              r => r.user = {
+                id:'5',
+                name:'Username',
+                email:'user@mail.com',
+                userRole:1
+              });
             return requests;
           }
         )
       );
   }
 
-  getRequest(id: string): Observable<Request> {
+  getRequest(id: string): Observable<Request> { // request + photoRequests
     return this.http.get<Request>(this.example + id + '.json')
       .pipe(
         map(
           request => {
-            request.user = {id:'5', name:'Username', email:'user@mail.com', userRole:1};
+            request.user = {
+              id:'5',
+              name:'Username',
+              email:'user@mail.com',
+              userRole:1
+            };
             return request;
           }
         )

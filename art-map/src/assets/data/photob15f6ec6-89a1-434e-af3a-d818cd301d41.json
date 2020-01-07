@@ -1,14 +1,12 @@
 ﻿[
   {
-    "id": "1",
     "artObjectId": "b15f6ec6-89a1-434e-af3a-d818cd301d41",
-    "index": "1",
+    "index": 1,
     "photoPath": "https://i8.photo.2gis.com/images/geo/3/422212505379238_c9a2.jpg"
   },
   {
-    "id": "2",
     "artObjectId": "b15f6ec6-89a1-434e-af3a-d818cd301d41",
-    "index": "2",
+    "index": 2,
     "photoPath": "https://i1.photo.2gis.com/images/geo/3/422212510075221_6d01.jpg"
   }
 ]
