@@ -3,5 +3,6 @@
     public static class ArtMapConstants
     {
         public const int RequestStatusActive = 1;
+        
     }
 }
