@@ -5,6 +5,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Services;
 
+    [ApiController]
+    [Route("[controller]")]
     public class AccountController : Controller
     {
         private readonly AccountService accountService;
