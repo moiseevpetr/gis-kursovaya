@@ -1,4 +1,6 @@
-﻿namespace Gis.ArtMap.Server.Services
+﻿using Gis.ArtMap.Server.Models;
+
+namespace Gis.ArtMap.Server.Services
 {
     using System;
     using System.Collections.Generic;
@@ -84,7 +86,7 @@
         {
             return await this.context.Request
                 .Include(r => r.User)
-                .Where(x => x.RequestStatus == ArtMapConstants.RequestStatusActive).ToListAsync();
+                .Where(x => x.RequestStatus == (int)RequestStatus.Active).ToListAsync();
         }
 
         public async Task<Request> GetById(Guid id)
