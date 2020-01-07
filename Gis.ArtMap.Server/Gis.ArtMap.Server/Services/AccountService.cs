@@ -12,11 +12,11 @@
 
     public class AccountService
     {
-        private readonly DbSet<User> users;
+        private readonly ArtMapDbContext context;
 
         public AccountService(ArtMapDbContext context)
         {
-            this.users = context.User;
+            this.context = context;
         }
 
         public async Task<ResponseToken> GetToken(string username, string password)
@@ -48,7 +48,7 @@
                 throw new Exception("Incorrect data");
             }
 
-            User user = await this.users.FirstOrDefaultAsync(x => x.Name == name);
+            User user = await context.User.FirstOrDefaultAsync(x => x.Name == name);
 
             if (user != null)
             {
@@ -59,7 +59,8 @@
 
             try
             {
-                await this.users.AddAsync(user);
+                await context.User.AddAsync(user);
+                await this.context.SaveChangesAsync();
             }
             catch
             {
@@ -71,7 +72,7 @@
 
         private async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            User person = await this.users.FirstOrDefaultAsync(x => x.Name == username && x.Password == password);
+            User person = await this.context.User.FirstOrDefaultAsync(x => x.Name == username && x.Password == password);
 
             if (person == null)
             {
