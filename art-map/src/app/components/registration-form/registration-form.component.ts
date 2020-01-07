@@ -66,15 +66,22 @@ export class RegistrationFormComponent implements OnInit {
 
     let reg: RegistrationContract = this.registrationForm.value;
     this.authorizationService.signIn(reg)
-      .subscribe(result => {
-        if (result) {
-          this.regError = false;
-          this.dialogRef.close();
-        }
-        else {
+      .subscribe(
+        result => {
+          if (result) {
+            this.regError = false;
+            this.dialogRef.close();
+          }
+          else {
+            this.regError = true;
+          }
+        },
+        error => {
+          alert(JSON.stringify(error.error));
           this.regError = true;
         }
-      });
+
+        );
   }
 
   close(): void {
