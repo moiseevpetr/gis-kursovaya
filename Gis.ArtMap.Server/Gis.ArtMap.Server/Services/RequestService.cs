@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Entities;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.EntityFrameworkCore;
 
     public class RequestService
@@ -16,6 +17,7 @@
             this.context = context;
         }
 
+        [Authorize]
         public async Task<ArtObject> Accept(Guid id)
         {
             Request request = await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
@@ -52,6 +54,7 @@
             return await this.context.Request.FirstOrDefaultAsync(x => x.Id == request.Id);
         }
 
+        [Authorize]
         public async Task Decline(Guid id)
         {
             Request existedRequest = await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
