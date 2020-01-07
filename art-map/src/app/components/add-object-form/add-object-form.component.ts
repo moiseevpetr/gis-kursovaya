@@ -112,7 +112,7 @@ export class AddObjectFormComponent implements OnInit {
       user: null,
       date: new Date(),
       requestType: RequestType.AddObject,
-      requestStatus: RequestStatus.Consideration,
+      requestStatus: RequestStatus.Active,
       artObjectName: addRequest.name,
       artObjectDescription: addRequest.description,
       artObjectCreationDate: new Date(),

@@ -67,7 +67,6 @@ export class AuthorizationService {
           }
           else {
             this.currentUser = null;
-            alert('Пользователь не зарегистрирован.');
             return false;
           }
         })

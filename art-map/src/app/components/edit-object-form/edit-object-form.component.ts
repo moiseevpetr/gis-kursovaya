@@ -156,7 +156,7 @@ export class EditObjectFormComponent implements OnInit {
       user: null,
       date: new Date(),
       requestType: RequestType.EditObject,
-      requestStatus: RequestStatus.Consideration,
+      requestStatus: RequestStatus.Active,
       artObjectName: editRequest.name,
       artObjectDescription: editRequest.description,
       artObjectCreationDate: this.artObject.creationDate,

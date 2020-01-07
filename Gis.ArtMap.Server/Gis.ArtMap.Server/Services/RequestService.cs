@@ -82,17 +82,23 @@
 
         public async Task<IList<Request>> GetActive()
         {
-            return await this.context.Request.Where(x => x.RequestStatus == ArtMapConstants.RequestStatusActive).ToListAsync();
+            return await this.context.Request
+                .Include(r => r.User)
+                .Where(x => x.RequestStatus == ArtMapConstants.RequestStatusActive).ToListAsync();
         }
 
         public async Task<Request> GetById(Guid id)
         {
-            return await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
+            return await this.context.Request
+                .Include(r => r.User)
+                .Include(r => r.PhotoRequest)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IList<Request>> GetByUserId(Guid id)
         {
-            return await this.context.Request.Where(x => x.UserId == id)
+            return await this.context.Request
+                .Where(x => x.UserId == id)
                 .ToListAsync();
         }
     }

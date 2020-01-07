@@ -42,7 +42,7 @@ export class UserRequestListComponent implements OnInit {
 
   getStrRequestStatus(requestStatus: RequestStatus) {
     switch (requestStatus) {
-      case RequestStatus.Consideration:
+      case RequestStatus.Active:
         return 'Рассматривается';
       case RequestStatus.Accepted:
         return 'Принято';
