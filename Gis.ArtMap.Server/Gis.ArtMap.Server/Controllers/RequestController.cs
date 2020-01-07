@@ -27,7 +27,7 @@
             }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { errorText = exception.Message });
             }
         }
 
@@ -47,7 +47,7 @@
             }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { errorText = exception.Message });
             }
         }
 

@@ -41,7 +41,7 @@ namespace Gis.ArtMap.Server.Controllers
             }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { errorText = exception.Message });
             }
         }
     }
