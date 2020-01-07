@@ -40,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadRequestsForUser() {
-    this.requestService.getRequestForUser(this.user.id)
+    this.requestService.getRequestsForUser(this.user.id)
       .subscribe(requests =>
         this.requests = requests
       );

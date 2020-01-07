@@ -8,5 +8,15 @@
     "target": "https://localhost:5001/",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/register": {
+    "target": "https://localhost:5001/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/token": {
+    "target": "https://localhost:5001/",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

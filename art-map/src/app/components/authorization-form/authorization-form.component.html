@@ -31,8 +31,8 @@
     </div>
     <a routerLink="" (click)="rememberPass()">Забыли пароль?</a>
 
-    <div *ngIf="authorizationForm.invalid && authorizationForm.dirty">
-      <span  class="mat-error" *ngIf="authError">
+    <div *ngIf="authError">
+      <span  class="mat-error">
         Неверные логин и/или пароль.
       </span>
     </div>

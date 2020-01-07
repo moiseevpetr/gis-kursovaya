@@ -51,15 +51,20 @@ export class AuthorizationFormComponent implements OnInit {
 
     let auth: AuthorizationContract = this.authorizationForm.value;
     this.authorizationService.logIn(auth)
-      .subscribe(result => {
-        if (result) {
-          this.authError = false;
-          this.dialogRef.close();
-        }
-        else {
+      .subscribe(
+        result => {
+          if (result) {
+            this.authError = false;
+            this.dialogRef.close();
+          }
+          else {
+            this.authError = true;
+          }
+        },
+        error => {
+          alert(JSON.stringify(error.error));
           this.authError = true;
-        }
-      });
+        });
   }
 
   close(): void {

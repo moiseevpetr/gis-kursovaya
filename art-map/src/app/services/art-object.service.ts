@@ -17,6 +17,6 @@ export class ArtObjectService {
   }
 
   getArtObjects(): Observable<ArtObject[]> {
-    return this.http.get<ArtObject[]>(this.example);
+    return this.http.get<ArtObject[]>(this.url);
   }
 }

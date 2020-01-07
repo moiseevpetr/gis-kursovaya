@@ -9,7 +9,7 @@
         public virtual Photo Photo { get; set; }
         public Guid? PhotoId { get; set; }
         public int PhotoRequestType { get; set; }
-        public string PthotoPath { get; set; }
+        public string PhotoPath { get; set; }
         public virtual Request Request { get; set; }
         public Guid RequestId { get; set; }
     }

@@ -33,7 +33,7 @@
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(100)
+                    .HasMaxLength(128)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.TypeKeyNavigation)
@@ -52,7 +52,7 @@
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasMaxLength(32)
                     .IsUnicode(false);
             });
 
@@ -65,7 +65,7 @@
             
                 entity.Property(e => e.PhotoPath)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasMaxLength(256)
                     .IsUnicode(false);
             
                 entity.HasOne(d => d.ArtObject)
@@ -75,7 +75,7 @@
                     .HasConstraintName("Имеет галерею фото");
             });
             
-            //
+            
             // modelBuilder.Entity<PhotoRequest>(entity =>
             // {
             //     entity.HasIndex(e => e.PhotoId)
@@ -86,8 +86,8 @@
             //
             //     entity.Property(e => e.Id).ValueGeneratedNever();
             //
-            //     entity.Property(e => e.PthotoPath)
-            //         .HasMaxLength(30)
+            //     entity.Property(e => e.PhotoPath)
+            //         .HasMaxLength(256)
             //         .IsUnicode(false);
             //
             //     entity.HasOne(d => d.Photo)
@@ -116,21 +116,19 @@
             //     entity.Property(e => e.Id).ValueGeneratedNever();
             //
             //     entity.Property(e => e.ArtObjectCreationDate)
-            //         .HasMaxLength(1)
-            //         .IsUnicode(false)
-            //         .IsFixedLength();
+            //         .HasColumnType("datetime");
             //
             //     entity.Property(e => e.ArtObjectDescription).IsUnicode(false);
             //
             //     entity.Property(e => e.ArtObjectName)
-            //         .HasMaxLength(100)
+            //         .HasMaxLength(128)
             //         .IsUnicode(false);
             //
             //     entity.Property(e => e.Date).HasColumnType("datetime");
             //
             //     entity.Property(e => e.Reason)
             //         .IsRequired()
-            //         .HasMaxLength(1000)
+            //         .HasMaxLength(1024)
             //         .IsUnicode(false);
             //
             //     entity.HasOne(d => d.ArtObject)
@@ -156,17 +154,17 @@
             //
             //     entity.Property(e => e.Email)
             //         .IsRequired()
-            //         .HasMaxLength(50)
+            //         .HasMaxLength(64)
             //         .IsUnicode(false);
             //
             //     entity.Property(e => e.Name)
             //         .IsRequired()
-            //         .HasMaxLength(50)
+            //         .HasMaxLength(64)
             //         .IsUnicode(false);
             //
             //     entity.Property(e => e.Password)
             //         .IsRequired()
-            //         .HasMaxLength(50)
+            //         .HasMaxLength(64)
             //         .IsUnicode(false);
             // });
 

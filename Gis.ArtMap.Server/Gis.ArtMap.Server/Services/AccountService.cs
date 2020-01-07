@@ -1,4 +1,6 @@
-﻿namespace Gis.ArtMap.Server.Services
+﻿using System.Linq;
+
+namespace Gis.ArtMap.Server.Services
 {
     using System;
     using System.Collections.Generic;
@@ -19,9 +21,12 @@
             this.context = context;
         }
 
-        public async Task<ResponseToken> GetToken(string username, string password)
+        public async Task<ResponseToken> GetToken(string email, string password)
         {
-            ClaimsIdentity identity = await GetIdentity(username, password);
+            ClaimsIdentity identity = await GetIdentity(email, password);
+            User user = await context.User
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync(u => u.Password == password);
             if (identity == null)
             {
                 return null;
@@ -38,7 +43,7 @@
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            return new ResponseToken(identity.Name, encodedJwt);
+            return new ResponseToken(user.Id, identity.Name, email, user.UserRole, encodedJwt);
         }
 
         public async Task<User> Register(string name, string password, string email)
@@ -53,6 +58,13 @@
             if (user != null)
             {
                 throw new Exception("A user with that name exists");
+            }
+            
+            user = await context.User.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user != null)
+            {
+                throw new Exception("A user with that email exists");
             }
 
             user = new User { Email = email, Name = name, Password = password, Id = Guid.NewGuid() };
@@ -70,9 +82,9 @@
             return user;
         }
 
-        private async Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentity(string email, string password)
         {
-            User person = await this.context.User.FirstOrDefaultAsync(x => x.Name == username && x.Password == password);
+            User person = await this.context.User.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
 
             if (person == null)
             {
