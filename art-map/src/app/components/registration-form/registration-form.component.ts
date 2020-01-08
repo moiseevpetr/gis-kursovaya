@@ -77,7 +77,7 @@ export class RegistrationFormComponent implements OnInit {
           }
         },
         error => {
-          alert(JSON.stringify(error.error));
+          alert(error.error.errorText);
           this.regError = true;
         }
 

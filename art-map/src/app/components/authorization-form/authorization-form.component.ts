@@ -62,7 +62,6 @@ export class AuthorizationFormComponent implements OnInit {
           }
         },
         error => {
-          alert(JSON.stringify(error.error));
           this.authError = true;
         });
   }

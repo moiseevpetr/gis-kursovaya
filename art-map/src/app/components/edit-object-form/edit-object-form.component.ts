@@ -163,7 +163,7 @@ export class EditObjectFormComponent implements OnInit {
       artObjectType: editRequest.type,
       artObjectLongitude: editRequest.longitude,
       artObjectLatitude: editRequest.latitude,
-      photoRequests: this.photoRequests
+      photoRequest: this.photoRequests
     };
 
     //alert(JSON.stringify(request));

@@ -1,4 +1,6 @@
-﻿namespace Gis.ArtMap.Server.Controllers
+﻿using Gis.ArtMap.Server.Models;
+
+namespace Gis.ArtMap.Server.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -32,17 +34,17 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRequest(Request request)
+        public async Task<IActionResult> AddRequest(RequestContract request)
         {
             return Json(await this.requestService.Add(request));
         }
 
         [HttpGet("{id:guid}/decline")]
-        public async Task<IActionResult> Decline(Guid id, string reason)
+        public async Task<IActionResult> Decline(Guid id)
         {
             try
             {
-                await this.requestService.Decline(id, reason);
+                await this.requestService.Decline(id);
                 return StatusCode(200);
             }
             catch (Exception exception)

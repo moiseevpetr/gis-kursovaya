@@ -78,7 +78,7 @@ export class DeleteObjectFormComponent implements OnInit {
       artObjectType: this.artObject.typeKey,
       artObjectLongitude: this.artObject.longitude,
       artObjectLatitude: this.artObject.latitude,
-      photoRequests: null
+      photoRequest: null
     };
 
     //alert(JSON.stringify(request));

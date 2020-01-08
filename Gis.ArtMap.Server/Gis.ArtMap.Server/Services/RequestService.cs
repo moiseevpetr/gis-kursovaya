@@ -1,14 +1,14 @@
-﻿namespace Gis.ArtMap.Server.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Entities;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Gis.ArtMap.Server.Entities;
+using Gis.ArtMap.Server.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
+namespace Gis.ArtMap.Server.Services
+{
     public class RequestService
     {
         private readonly ArtMapDbContext context;
@@ -21,7 +21,9 @@
         [Authorize]
         public async Task<ArtObject> Accept(Guid id)
         {
-            Request request = await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
+            Request request = await context.Request
+                .Include(r => r.PhotoRequest)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (request == null)
             {
@@ -30,7 +32,7 @@
 
             try
             {
-                switch ((RequestType)request.RequestType)
+                switch ((RequestType) request.RequestType)
                 {
                     case RequestType.AddObject:
                         await AddProcess(request);
@@ -45,8 +47,8 @@
                         throw new ArgumentOutOfRangeException();
                 }
 
-                request.RequestStatus = (int)RequestStatus.Accepted;
-                await this.context.SaveChangesAsync();
+                request.RequestStatus = (int) RequestStatus.Accepted;
+                await context.SaveChangesAsync();
             }
             catch
             {
@@ -56,22 +58,55 @@
             return await this.context.ArtObject.FirstOrDefaultAsync(x => x.Id == request.ArtObjectId);
         }
 
-        public async Task<Request> Add(Request request)
+        public async Task<Request> Add(RequestContract contract)
         {
-            if (request == null)
+            if (contract == null)
             {
                 return null;
             }
 
-            request.Id = Guid.NewGuid();
-            await this.context.Request.AddAsync(request);
-            await this.context.SaveChangesAsync();
+            var requestId = Guid.NewGuid();
+            var request = new Request
+            {
+                Id = requestId,
+                ArtObjectCreationDate = contract.ArtObjectCreationDate,
+                ArtObjectDescription = contract.ArtObjectDescription,
+                ArtObjectId = contract.ArtObjectId,
+                ArtObjectLatitude = contract.ArtObjectLatitude,
+                ArtObjectLongitude = contract.ArtObjectLongitude,
+                ArtObjectName = contract.ArtObjectName,
+                ArtObjectType = contract.ArtObjectType,
+                Date = contract.Date,
+                Reason = contract.Reason,
+                RequestType = contract.RequestType,
+                RequestStatus = (int) RequestStatus.Active,
+                UserId = contract.UserId
+            };
 
-            return await this.context.Request.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var photoRequests = new List<PhotoRequest>();
+            var photoRequestContracts = contract.PhotoRequest ?? new List<PhotoRequestContract>();
+            foreach (var photoRequestContract in photoRequestContracts)
+            {
+                var photoRequest = new PhotoRequest
+                {
+                    Id = Guid.NewGuid(),
+                    RequestId = requestId,
+                    PhotoId = photoRequestContract.PhotoId,
+                    PhotoPath = photoRequestContract.PhotoPath,
+                    PhotoRequestType = photoRequestContract.PhotoRequestType
+                };
+                photoRequests.Add(photoRequest);
+            }
+
+            await context.Request.AddAsync(request);
+            await context.PhotoRequest.AddRangeAsync(photoRequests);
+            await context.SaveChangesAsync();
+
+            return await context.Request.FirstOrDefaultAsync(x => x.Id == request.Id);
         }
 
         [Authorize]
-        public async Task Decline(Guid id, string reason)
+        public async Task Decline(Guid id)
         {
             Request existedRequest = await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -82,9 +117,9 @@
 
             try
             {
-                existedRequest.RequestStatus = (int)RequestStatus.Rejected;
-                existedRequest.Reason = reason;
-                await this.context.SaveChangesAsync();
+                existedRequest.RequestStatus = (int) RequestStatus.Rejected;
+                //existedRequest.Reason = reason;
+                await context.SaveChangesAsync();
             }
             catch
             {
@@ -94,48 +129,68 @@
 
         public async Task<IList<Request>> Get()
         {
-            return await this.context.Request.ToListAsync();
+            return await context.Request.ToListAsync();
         }
 
         public async Task<IList<Request>> GetActive()
         {
-            return await this.context.Request.Where(x => x.RequestStatus == ArtMapConstants.RequestStatusActive).ToListAsync();
+            return await context.Request
+                .Include(r => r.User)
+                .Where(r => r.RequestStatus == (int) RequestStatus.Active)
+                .OrderByDescending(r => r.Date)
+                .ToListAsync();
         }
 
         public async Task<Request> GetById(Guid id)
         {
-            return await this.context.Request.FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Request
+                .Include(r => r.User)
+                .Include(r => r.PhotoRequest)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IList<Request>> GetByUserId(Guid id)
         {
-            return await this.context.Request.Where(x => x.UserId == id)
+            return await context.Request
+                .Where(x => x.UserId == id)
+                .OrderByDescending(r => r.Date)
                 .ToListAsync();
         }
 
         private async Task AddProcess(Request request)
         {
+            var objectId = Guid.NewGuid();
             var newObject = new ArtObject
             {
-                CreationDate = DateTime.TryParse(request.ArtObjectCreationDate, out DateTime dT) ? dT : DateTime.Now,
+                CreationDate = request.ArtObjectCreationDate,
                 Description = request.ArtObjectDescription,
-                Id = Guid.NewGuid(),
-                Latitude = (double)request.ArtObjectLatitude,
-                Longitude = (double)request.ArtObjectLongitude,
+                Id = objectId,
+                Latitude = request.ArtObjectLatitude.Value,
+                Longitude = request.ArtObjectLongitude.Value,
                 Name = request.ArtObjectName,
-                Photo = request.PhotoRequest
-                    .Where(x => x.PhotoRequestType == (int)PhotoRequestType.AddPhoto)
-                    .Select(x => x.Photo)
-                    .ToList(),
-                Request = new List<Request> { request },
-                TypeKey = (int)request.ArtObjectType,
-                TypeKeyNavigation = request.ArtObjectTypeNavigation
+                TypeKey = (int) request.ArtObjectType,
             };
+
+            var photoRequests = request.PhotoRequest?.ToList() ?? new List<PhotoRequest>();
+
+            var photos = new List<Photo>();
+            for (var index = 0; index < photoRequests.Count; index++)
+            {
+                var photo = new Photo
+                {
+                    Id = Guid.NewGuid(),
+                    ArtObjectId = objectId,
+                    Index = index,
+                    PhotoPath = photoRequests[index].PhotoPath
+                };
+                photos.Add(photo);
+            }
 
             try
             {
-                await this.context.ArtObject.AddAsync(newObject);
-                await this.context.SaveChangesAsync();
+                await context.ArtObject.AddAsync(newObject);
+                await context.Photo.AddRangeAsync(photos);
+                await context.SaveChangesAsync();
             }
             catch
             {
@@ -145,7 +200,9 @@
 
         private async Task DeleteProcess(Request request)
         {
-            ArtObject artObject = await this.context.ArtObject.FirstOrDefaultAsync(x => x.Id == request.ArtObjectId);
+            ArtObject artObject = await context.ArtObject
+                .Include(a => a.Photo)
+                .FirstOrDefaultAsync(x => x.Id == request.ArtObjectId);
 
             if (artObject == null)
             {
@@ -154,7 +211,9 @@
 
             try
             {
-                this.context.ArtObject.Remove(artObject);
+                context.Photo.RemoveRange(artObject.Photo);
+                context.ArtObject.Remove(artObject);
+                await context.SaveChangesAsync();
             }
             catch
             {
@@ -164,21 +223,58 @@
 
         private async Task EditProcess(Request request)
         {
-            ArtObject artObject = await this.context.ArtObject.FirstOrDefaultAsync(x => x.Id == request.ArtObjectId);
+            ArtObject artObject = await context.ArtObject
+                .Include(a => a.Photo)
+                .FirstOrDefaultAsync(x => x.Id == request.ArtObjectId);
 
             if (artObject == null)
             {
                 throw new Exception(ArtMapConstants.EmptyRequest);
             }
 
-            artObject.Name = request.ArtObjectName;
-            artObject.Description = request.ArtObjectDescription;
+            artObject.Name = request.ArtObjectName ?? artObject.Name;
+            artObject.Description = request.ArtObjectDescription ?? artObject.Description;
             artObject.Latitude = request.ArtObjectLatitude ?? artObject.Latitude;
             artObject.Longitude = request.ArtObjectLongitude ?? artObject.Longitude;
             artObject.TypeKey = request.ArtObjectType ?? artObject.TypeKey;
-            artObject.TypeKeyNavigation = request.ArtObjectTypeNavigation ?? artObject.TypeKeyNavigation;
 
-            await this.context.SaveChangesAsync();
+            var photoRequests = request.PhotoRequest.ToList();
+
+            var lastIndex = 0.0;
+            if (artObject.Photo.Any())
+                lastIndex = artObject.Photo
+                    .Select(p => p.Index)
+                    .Max();
+            var addPhotos = new List<Photo>();
+            var delPhotos = new List<Photo>();
+            foreach (var photoRequest in photoRequests)
+                switch (photoRequest.PhotoRequestType)
+                {
+                    case (int) PhotoRequestType.AddPhoto:
+                        var addPhoto = new Photo
+                        {
+                            Id = Guid.NewGuid(),
+                            ArtObjectId = artObject.Id,
+                            Index = lastIndex,
+                            PhotoPath = photoRequest.PhotoPath
+                        };
+                        addPhotos.Add(addPhoto);
+                        lastIndex++;
+                        break;
+                    case (int) PhotoRequestType.DeletePhoto:
+                        var delPhoto = artObject.Photo
+                            .FirstOrDefault(p => p.Id == photoRequest.PhotoId);
+                        delPhotos.Add(delPhoto);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+            await context.Photo.AddRangeAsync(addPhotos);
+            context.Photo.RemoveRange(delPhotos);
+            context.ArtObject.Update(artObject);
+
+            await context.SaveChangesAsync();
         }
     }
 }

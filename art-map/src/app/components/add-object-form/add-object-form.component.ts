@@ -117,9 +117,9 @@ export class AddObjectFormComponent implements OnInit {
       artObjectDescription: addRequest.description,
       artObjectCreationDate: new Date(),
       artObjectType: addRequest.type,
-      artObjectLongitude: addRequest.longitude,
-      artObjectLatitude: addRequest.latitude,
-      photoRequests: this.photoRequests
+      artObjectLongitude: Number(addRequest.longitude),
+      artObjectLatitude: Number(addRequest.latitude),
+      photoRequest: this.photoRequests
     };
 
     //alert(JSON.stringify(request));

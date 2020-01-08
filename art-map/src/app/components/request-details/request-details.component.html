@@ -18,7 +18,7 @@
       </div>
 
       <div class="flex">
-        <div *ngFor="let photoRequest of request?.photoRequests" class="photo-container">
+        <div *ngFor="let photoRequest of request?.photoRequest" class="photo-container">
           <img [src]="photoRequest?.photoPath" alt="Новое фото" class="img">
           <mat-icon *ngIf="photoRequest?.photoRequestType == 1" class="add icon">add</mat-icon>
           <mat-icon *ngIf="photoRequest?.photoRequestType == 2" class="remove icon">remove</mat-icon>

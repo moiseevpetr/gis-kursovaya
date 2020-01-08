@@ -1,16 +1,15 @@
-﻿namespace Gis.ArtMap.Server.Entities
+﻿using System;
+using System.Collections.Generic;
+using Gis.ArtMap.Server.Entities;
+
+namespace Gis.ArtMap.Server.Models
 {
-    using System;
-    using System.Collections.Generic;
-
-    public class Request
+    public class RequestContract
     {
-        public Request()
+        public RequestContract()
         {
-            PhotoRequest = new HashSet<PhotoRequest>();
+            PhotoRequest = new List<PhotoRequestContract>();
         }
-
-        public virtual ArtObject ArtObject { get; set; }
         public DateTime ArtObjectCreationDate { get; set; }
         public string ArtObjectDescription { get; set; }
         public Guid? ArtObjectId { get; set; }
@@ -18,11 +17,8 @@
         public double? ArtObjectLongitude { get; set; }
         public string ArtObjectName { get; set; }
         public int? ArtObjectType { get; set; }
-        public virtual ArtObjectType ArtObjectTypeNavigation { get; set; }
         public DateTime Date { get; set; }
-
-        public Guid Id { get; set; }
-        public virtual ICollection<PhotoRequest> PhotoRequest { get; set; }
+        public virtual ICollection<PhotoRequestContract> PhotoRequest { get; set; }
         public string Reason { get; set; }
         public int RequestStatus { get; set; }
         public int RequestType { get; set; }

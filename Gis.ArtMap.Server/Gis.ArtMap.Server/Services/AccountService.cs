@@ -67,7 +67,14 @@ namespace Gis.ArtMap.Server.Services
                 throw new Exception("A user with that email exists");
             }
 
-            user = new User { Email = email, Name = name, Password = password, Id = Guid.NewGuid() };
+            user = new User
+            {
+                Email = email, 
+                Name = name, 
+                Password = password, 
+                Id = Guid.NewGuid(),
+                UserRole = 1
+            };
 
             try
             {

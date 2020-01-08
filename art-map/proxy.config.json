@@ -18,5 +18,10 @@
     "target": "https://localhost:5001/",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/request": {
+    "target": "https://localhost:5001/",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

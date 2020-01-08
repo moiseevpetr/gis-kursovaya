@@ -19,5 +19,5 @@ export interface Request {
   artObjectType: ArtObjectType;
   artObjectLongitude: number;
   artObjectLatitude: number;
-  photoRequests: PhotoRequest[];
+  photoRequest: PhotoRequest[];
 }
